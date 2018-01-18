@@ -49,13 +49,13 @@ void get_imgs(std::vector<ncorr_class_img> &images,const mxArray *prhs) {
                 get_double_array(img_template.gs,mat_gs);
                 get_double_scalar(img_template.max_gs,mat_max_gs);
                 get_string(img_template.type,mat_type);
-				
+                
                 // If image is not reduced then get interpolation info
                 if (img_template.type.compare(0,7,"reduced") != 0) {
                     get_double_array(img_template.bcoef,mat_bcoef);     
                     get_integer_scalar(img_template.border_bcoef,mat_border_bcoef);
                 }
-				
+                
                 // Store
                 images.push_back(img_template);
             } else {
@@ -82,21 +82,21 @@ ncorr_class_region::ncorr_class_region() {
 
 // NOT THREADSAFE
 void ncorr_class_region::alloc(const int &h,const int &w) {    
-// Allocate space for nodelist and noderange
+    // Allocate space for nodelist and noderange
     nodelist.alloc(h,w);
-	noderange.alloc(h,1);
+    noderange.alloc(h,1);
 }
 
 // NOT THREADSAFE
 void ncorr_class_region::free() {
-// Free nodelist and noderange
-	nodelist.free();
-	noderange.free();
+    // Free nodelist and noderange
+    nodelist.free();
+    noderange.free();
 }
 
 // NOT THREADSAFE
 void get_region(std::vector<ncorr_class_region> &region,const mxArray *prhs) {
-    // Check input	
+    // Check input    
     if (mxIsClass(prhs,"struct") && mxGetM(prhs) == 1) {
         for (int i=0; i<(int)mxGetN(prhs); i++) {
             mxArray *mat_nodelist = mxGetField(prhs,i,"nodelist");
@@ -122,13 +122,13 @@ void get_region(std::vector<ncorr_class_region> &region,const mxArray *prhs) {
                 get_integer_scalar(region_template.leftbound,mat_leftbound);
                 get_integer_scalar(region_template.rightbound,mat_rightbound);
                 get_integer_scalar(region_template.totalpoints,mat_totalpoints);
-				
+                
                 // Check inputs
-				// Check noderange:
+                // Check noderange:
                 if (region_template.noderange.height != region_template.nodelist.height || region_template.noderange.width != 1) {
                     mexErrMsgTxt("'nodelist' or 'noderange' size is incorrect.\n");
                 }
-				
+                
                 // Store region_template
                 region.push_back(region_template);
             } else {
@@ -150,9 +150,9 @@ struct_cirroi::struct_cirroi() {
 
 // THREADSAFE
 struct_info_cirroi::struct_info_cirroi() {
-	radius = 0;
-	x = 0;
-	y = 0;
+    radius = 0;
+    x = 0;
+    y = 0;
 }
 
 // This is for an ncorr_class_roi input ---------------------------------//
@@ -179,7 +179,7 @@ void get_rois(std::vector<ncorr_class_roi> &rois,const mxArray *prhs) {
                 // Get data            
                 get_logical_array(roi_template.mask,mat_mask);
                 get_region(roi_template.region,mat_region);
-				
+                
                 // Store
                 rois.push_back(roi_template);                                
             } else {
@@ -193,14 +193,14 @@ void get_rois(std::vector<ncorr_class_roi> &rois,const mxArray *prhs) {
 
 // NOT THREADSAFE
 void ncorr_class_roi::set_cirroi(const int &radius,const int &total_threads) {
-// Used to "set" the cirroi. Must be called before calling update_cirroi, which is followed by get_cirroi
-// This is called only once    
+    // Used to "set" the cirroi. Must be called before calling update_cirroi, which is followed by get_cirroi
+    // This is called only once    
     // Get max nodewidth
     int max_nodewidth = 0;
     for (int i=0; i<(int)region.size(); i++) {
         if (region[i].nodelist.width > max_nodewidth) {
             max_nodewidth = region[i].nodelist.width;
-        }	
+        }    
     }
     
     // Set cirroi and info_cirroi - one for each thread
@@ -236,19 +236,19 @@ void ncorr_class_roi::set_cirroi(const int &radius,const int &total_threads) {
 
 // THREADSAFE
 void ncorr_class_roi::update_cirroi(const int &num_region,const int &num_thread) {
-// This function is called once per region before calling get_cirroi.
-	if (info_cirroi[num_thread].region.nodelist.value != NULL && info_cirroi[num_thread].region.noderange.value != NULL && info_cirroi[num_thread].mask.value != NULL) {      
-		// Resize activelines
-		info_cirroi[num_thread].activelines.resize(region[num_region].nodelist.height*region[num_region].nodelist.width/2);
+    // This function is called once per region before calling get_cirroi.
+    if (info_cirroi[num_thread].region.nodelist.value != NULL && info_cirroi[num_thread].region.noderange.value != NULL && info_cirroi[num_thread].mask.value != NULL) {      
+        // Resize activelines
+        info_cirroi[num_thread].activelines.resize(region[num_region].nodelist.height*region[num_region].nodelist.width/2);
     } else {
         // Cannot use mexErrMsgTxt because it is not thread safe. mexPrintf is only marginally thread safe.
         mexPrintf("Cirroi has not been set yet for thread %d; this will most likely cause a crash, hopefully this message is seen before matlab closes.\n",num_thread);
-	}      
+    }      
 }
 
 // THREADSAFE
 void ncorr_class_roi::get_cirroi(const int &x,const int &y,const int &num_region,const bool &subsettrunc,const int &num_thread) {
-// Function creates cirroi which can be accessed through the cirroi member    
+    // Function creates cirroi which can be accessed through the cirroi member    
     // Quick check to see if cirroi has been set yet:
     if (info_cirroi[num_thread].region.nodelist.value != NULL && info_cirroi[num_thread].region.noderange.value != NULL && info_cirroi[num_thread].mask.value != NULL) {
         // Reset Values -------------------------------------------------//
@@ -294,14 +294,14 @@ void ncorr_class_roi::get_cirroi(const int &x,const int &y,const int &num_region
                 }
             }
         }
-        if (idx_nodelist == -1) {		
-			// Cannot use mexErrMsgTxt because it is not thread safe. mexPrintf is only marginally thread safe.
+        if (idx_nodelist == -1) {        
+            // Cannot use mexErrMsgTxt because it is not thread safe. mexPrintf is only marginally thread safe.
             mexPrintf("(X,Y) are not in region.\n");
         }
 
         // Add center nodes to queue
         int node_top;
-		int node_bottom;
+        int node_bottom;
         if (region[num_region].nodelist.value[idx_roi_x+idx_nodelist*region[num_region].nodelist.height] < info_cirroi[num_thread].circletemplate.value[info_cirroi[num_thread].radius]) {
             node_top = info_cirroi[num_thread].circletemplate.value[info_cirroi[num_thread].radius];
         } else {
@@ -314,13 +314,13 @@ void ncorr_class_roi::get_cirroi(const int &x,const int &y,const int &num_region
             node_bottom = region[num_region].nodelist.value[idx_roi_x+(idx_nodelist+1)*region[num_region].nodelist.height];
             circ_untrunc = false;
         }
-		
+        
         // Update mask
         for (int i=node_top-(info_cirroi[num_thread].y-info_cirroi[num_thread].radius); i<=node_bottom-(info_cirroi[num_thread].y-info_cirroi[num_thread].radius); i++) {
             info_cirroi[num_thread].mask.value[i+info_cirroi[num_thread].radius*info_cirroi[num_thread].mask.height] = true;
         }
-		
-		// Update queue
+        
+        // Update queue
         info_cirroi[num_thread].queue_nodelist.push_back(node_top);
         info_cirroi[num_thread].queue_nodelist.push_back(node_bottom);
         info_cirroi[num_thread].queue_nodeindex.push_back(info_cirroi[num_thread].radius);
@@ -331,7 +331,7 @@ void ncorr_class_roi::get_cirroi(const int &x,const int &y,const int &num_region
         // Enter while loop until queue is empty
         while (info_cirroi[num_thread].queue_nodelist.size() > 0) {
             // STEPS:
-			// 1) Load nodepair from queue
+            // 1) Load nodepair from queue
             // 2) Update queue
             // 3) Add nodepair to cirroi and sort
             // 4) Compare nodepair to nodepairs left and right and add nodes to queue
@@ -350,25 +350,25 @@ void ncorr_class_roi::get_cirroi(const int &x,const int &y,const int &num_region
                 info_cirroi[num_thread].region.nodelist.value[queue_nodeindex_buffer] = queue_nodelist_top_buffer;
                 info_cirroi[num_thread].region.nodelist.value[queue_nodeindex_buffer+info_cirroi[num_thread].region.nodelist.height] = queue_nodelist_bottom_buffer;
             } else {
-				bool inserted = false;
+                bool inserted = false;
                 for (int i=0; i<info_cirroi[num_thread].region.noderange.value[queue_nodeindex_buffer]; i+=2) {
                     if (queue_nodelist_bottom_buffer < info_cirroi[num_thread].region.nodelist.value[queue_nodeindex_buffer+i*info_cirroi[num_thread].region.nodelist.height]) {
                         for (int j=i; j<info_cirroi[num_thread].region.noderange.value[queue_nodeindex_buffer]; j++) {
                             info_cirroi[num_thread].queue_buffer.value[j-i] = info_cirroi[num_thread].region.nodelist.value[queue_nodeindex_buffer+j*info_cirroi[num_thread].region.nodelist.height];
                         }
                         
-						info_cirroi[num_thread].region.nodelist.value[queue_nodeindex_buffer+i*info_cirroi[num_thread].region.nodelist.height] = queue_nodelist_top_buffer;
+                        info_cirroi[num_thread].region.nodelist.value[queue_nodeindex_buffer+i*info_cirroi[num_thread].region.nodelist.height] = queue_nodelist_top_buffer;
                         info_cirroi[num_thread].region.nodelist.value[queue_nodeindex_buffer+(i+1)*info_cirroi[num_thread].region.nodelist.height] = queue_nodelist_bottom_buffer;
                         
-						for (int j=i+2; j<info_cirroi[num_thread].region.noderange.value[queue_nodeindex_buffer]+2; j++) {
+                        for (int j=i+2; j<info_cirroi[num_thread].region.noderange.value[queue_nodeindex_buffer]+2; j++) {
                             info_cirroi[num_thread].region.nodelist.value[queue_nodeindex_buffer+j*info_cirroi[num_thread].region.nodelist.height] = info_cirroi[num_thread].queue_buffer.value[j-(i+2)];
                         }
-						
+                        
                         inserted = true;
                         break;
                     }
                 }
-				
+                
                 if (!inserted){
                     info_cirroi[num_thread].region.nodelist.value[queue_nodeindex_buffer+info_cirroi[num_thread].region.noderange.value[queue_nodeindex_buffer]*info_cirroi[num_thread].region.nodelist.height] = queue_nodelist_top_buffer;
                     info_cirroi[num_thread].region.nodelist.value[queue_nodeindex_buffer+(info_cirroi[num_thread].region.noderange.value[queue_nodeindex_buffer]+1)*info_cirroi[num_thread].region.nodelist.height] = queue_nodelist_bottom_buffer;
@@ -395,14 +395,14 @@ void ncorr_class_roi::get_cirroi(const int &x,const int &y,const int &num_region
                         } else {
                             node_top = region[num_region].nodelist.value[(idx_froi-1)+i*(region[num_region].nodelist.height)];
                             circ_untrunc = false;
-                        }	
+                        }    
 
                         if (region[num_region].nodelist.value[(idx_froi-1)+(i+1)*(region[num_region].nodelist.height)] > info_cirroi[num_thread].circletemplate.value[(queue_nodeindex_buffer-1)+info_cirroi[num_thread].circletemplate.height]) {
                             node_bottom = info_cirroi[num_thread].circletemplate.value[(queue_nodeindex_buffer-1)+info_cirroi[num_thread].circletemplate.height];
                         } else {
                             node_bottom = region[num_region].nodelist.value[(idx_froi-1)+(i+1)*(region[num_region].nodelist.height)];
                             circ_untrunc = false;
-                        }	
+                        }    
 
                         if (node_top > node_bottom || node_top > queue_nodelist_bottom_buffer || node_bottom < queue_nodelist_top_buffer) {
                             continue;
@@ -442,14 +442,14 @@ void ncorr_class_roi::get_cirroi(const int &x,const int &y,const int &num_region
                         } else {
                             node_top = region[num_region].nodelist.value[(idx_froi+1)+i*(region[num_region].nodelist.height)];
                             circ_untrunc = false;
-                        }	
+                        }    
 
                         if (region[num_region].nodelist.value[(idx_froi+1)+(i+1)*(region[num_region].nodelist.height)] > info_cirroi[num_thread].circletemplate.value[(queue_nodeindex_buffer+1)+info_cirroi[num_thread].circletemplate.height]) {
                             node_bottom = info_cirroi[num_thread].circletemplate.value[(queue_nodeindex_buffer+1)+info_cirroi[num_thread].circletemplate.height];
                         } else {
                             node_bottom = region[num_region].nodelist.value[(idx_froi+1)+(i+1)*(region[num_region].nodelist.height)];
                             circ_untrunc = false;
-                        }	
+                        }    
 
                         if (node_top > node_bottom || node_top > queue_nodelist_bottom_buffer || node_bottom < queue_nodelist_top_buffer) {
                             continue;
@@ -694,8 +694,8 @@ void ncorr_class_roi::get_cirroi(const int &x,const int &y,const int &num_region
                 // Setting the last parameter to true for formregion
                 // will make the length of the noderange the same as
                 // the width of the mask.
-				
-				// Use a vec_struct_region instead of ncorr_struct_region because it is thread safe
+                
+                // Use a vec_struct_region instead of ncorr_struct_region because it is thread safe
                 std::vector<vec_struct_region> region_cirroi_buffer;
                 bool removed = false;
                 form_regions(region_cirroi_buffer,removed,info_cirroi[num_thread].mask_buffer,0,true);   
@@ -766,14 +766,14 @@ void ncorr_class_roi::get_cirroi(const int &x,const int &y,const int &num_region
 // THREADSAFE
 bool ncorr_class_roi::withinregion(const int &x,const int &y,const int &num_region) {
     // Returns true if x and y are located in the region specified by num_region
-	int idx_roi_x = x-region[num_region].leftbound;
-	if (idx_roi_x >= 0 && idx_roi_x < region[num_region].noderange.height) {
-		for (int i=0; i < region[num_region].noderange.value[idx_roi_x]; i+=2) {
-			if (y >= region[num_region].nodelist.value[idx_roi_x+i*region[num_region].nodelist.height] && y <= region[num_region].nodelist.value[idx_roi_x+(i+1)*region[num_region].nodelist.height]) {
-				return true;
-			}
-		}
-	}
+    int idx_roi_x = x-region[num_region].leftbound;
+    if (idx_roi_x >= 0 && idx_roi_x < region[num_region].noderange.height) {
+        for (int i=0; i < region[num_region].noderange.value[idx_roi_x]; i+=2) {
+            if (y >= region[num_region].nodelist.value[idx_roi_x+i*region[num_region].nodelist.height] && y <= region[num_region].nodelist.value[idx_roi_x+(i+1)*region[num_region].nodelist.height]) {
+                return true;
+            }
+        }
+    }
     return false;
 }
 
@@ -781,7 +781,7 @@ bool ncorr_class_roi::withinregion(const int &x,const int &y,const int &num_regi
 
 // NOT THREADSAFE
 ncorr_class_inverseregion::ncorr_class_inverseregion(ncorr_class_region &region, const int &border_extrap){
-// Note that border_extrap must be greater than or equal to 1.
+    // Note that border_extrap must be greater than or equal to 1.
     // Form inverseregion given a region input    
     // Allocate space for region - note that upperbound of width will be width of the region + 2
     alloc(region.nodelist.height+2*border_extrap,region.nodelist.width+2);

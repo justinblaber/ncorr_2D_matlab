@@ -65,9 +65,9 @@ function [seedinfo,threaddiagram,outstate] = ncorr_gui_seedanalysis(reference,cu
         % Initialize list for regions - this keeps track of regions that have
         % been seeded
         list_region = false(length(roi_reduced.region),1);    
-		% Number of images successfully seeded
-		num_imgs_success = inf;
-		
+        % Number of images successfully seeded
+        num_imgs_success = inf;
+        
         % Store data
         setappdata(handles_gui.figure,'ref_reduced',ref_reduced);  
         setappdata(handles_gui.figure,'gs_buffer_reduced',gs_buffer_reduced);
@@ -232,12 +232,12 @@ function [seedinfo,threaddiagram,outstate] = ncorr_gui_seedanalysis(reference,cu
     function callback_button_cancel(hObject,eventdata) %#ok<INUSD>
         close(handles_gui.figure);
     end
-    	
+        
     function freeze_menu()
         set(handles_gui.button_selectregion,'Enable','off'); 
     end
 
-    function unfreeze_menu()	
+    function unfreeze_menu()    
     end
 
     function update_sidemenu()
@@ -248,9 +248,9 @@ function [seedinfo,threaddiagram,outstate] = ncorr_gui_seedanalysis(reference,cu
         % regions might be empty.
         set(handles_gui.text_regioncount,'String',['Region(s) Set: ' num2str(sum(list_region)) ' of ' num2str(roi.get_fullregions())]);  
         
-		% Update buttons - Make sure there is at least one seeded region
-		% before enabling finish button, in the case that an empty ROI is
-		% provided.
+        % Update buttons - Make sure there is at least one seeded region
+        % before enabling finish button, in the case that an empty ROI is
+        % provided.
         if (any(list_region) && sum(list_region) == roi.get_fullregions())
             % All regions have been finished
             set(handles_gui.button_finish,'Enable','on'); 

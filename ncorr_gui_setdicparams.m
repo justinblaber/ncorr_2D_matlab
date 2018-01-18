@@ -101,7 +101,7 @@ function [radius,spacing,cutoff_diffnorm,cutoff_iteration,total_threads,stepanal
             spacing_prelim = params_init{2};            
             cutoff_diffnorm_prelim = params_init{3}; 
             cutoff_iteration_prelim = params_init{4};
-			total_threads_prelim = params_init{5};
+            total_threads_prelim = params_init{5};
             stepanalysis_prelim(1) = params_init{6};
             subsettrunc_prelim = params_init{7};
         end
@@ -159,7 +159,7 @@ function [radius,spacing,cutoff_diffnorm,cutoff_iteration,total_threads,stepanal
         % Get data
         stepanalysis_prelim = getappdata(handles_gui.figure,'stepanalysis_prelim');
         
-		% Get popup menu value
+        % Get popup menu value
         if (get(handles_gui.popupmenu,'Value') == 1)
             stepanalysis_prelim.type = 'seed';
         else
@@ -215,7 +215,7 @@ function [radius,spacing,cutoff_diffnorm,cutoff_iteration,total_threads,stepanal
         % Get data
         stepanalysis_prelim = getappdata(handles_gui.figure,'stepanalysis_prelim');
         
-		% Get checkbox value
+        % Get checkbox value
         stepanalysis_prelim.enabled = get(handles_gui.checkbox_stepanalysis,'Value');
         
         % Set data
@@ -229,7 +229,7 @@ function [radius,spacing,cutoff_diffnorm,cutoff_iteration,total_threads,stepanal
         % Get data
         stepanalysis_prelim = getappdata(handles_gui.figure,'stepanalysis_prelim');
         
-		% Get checkbox value
+        % Get checkbox value
         stepanalysis_prelim.auto = get(handles_gui.checkbox_seedauto,'Value');
         
         % Set data
@@ -240,7 +240,7 @@ function [radius,spacing,cutoff_diffnorm,cutoff_iteration,total_threads,stepanal
     end
 
     function callback_checkbox_subsettrunc(hObject,eventdata) %#ok<INUSD>        
-		% Get checkbox value
+        % Get checkbox value
         subsettrunc_prelim = get(handles_gui.checkbox_subsettrunc,'Value');
         
         % Set data
@@ -261,11 +261,11 @@ function [radius,spacing,cutoff_diffnorm,cutoff_iteration,total_threads,stepanal
         
         % Get radius num
         radius_buffer = str2double(get(handles_gui.edit_radius,'string')); 
-		if (ncorr_util_isintbb(radius_buffer,min_radius,max_radius,'Radius') == out.success)
-			radius_prelim = radius_buffer;   
-			radius_slider_prelim = min(1,max(0,fzero(@(x)get_radius(x)-radius_prelim,0)));
-		end
-			
+        if (ncorr_util_isintbb(radius_buffer,min_radius,max_radius,'Radius') == out.success)
+            radius_prelim = radius_buffer;   
+            radius_slider_prelim = min(1,max(0,fzero(@(x)get_radius(x)-radius_prelim,0)));
+        end
+            
         % Set data
         setappdata(handles_gui.figure,'radius_prelim',radius_prelim); 
         setappdata(handles_gui.figure,'radius_slider_prelim',radius_slider_prelim); 
@@ -285,10 +285,10 @@ function [radius,spacing,cutoff_diffnorm,cutoff_iteration,total_threads,stepanal
         
         % Get spacing num
         spacing_buffer = str2double(get(handles_gui.edit_spacing,'string')); 
-		if (ncorr_util_isintbb(spacing_buffer,min_spacing,max_spacing,'Spacing') == out.success)
-			spacing_prelim = spacing_buffer;
-			spacing_slider_prelim = min(1,max(0,fzero(@(x)get_spacing(x)-spacing_prelim,0)));
-		end
+        if (ncorr_util_isintbb(spacing_buffer,min_spacing,max_spacing,'Spacing') == out.success)
+            spacing_prelim = spacing_buffer;
+            spacing_slider_prelim = min(1,max(0,fzero(@(x)get_spacing(x)-spacing_prelim,0)));
+        end
         
         % Set data
         setappdata(handles_gui.figure,'spacing_prelim',spacing_prelim); 
@@ -307,9 +307,9 @@ function [radius,spacing,cutoff_diffnorm,cutoff_iteration,total_threads,stepanal
         
         % Get diffnorm
         cutoff_diffnorm_buffer = str2double(get(handles_gui.edit_cutoff_diffnorm,'string')); 
-		if (ncorr_util_isrealbb(cutoff_diffnorm_buffer,min_cutoff_diffnorm,max_cutoff_diffnorm,'Difference norm cutoff') == out.success)
-			cutoff_diffnorm_prelim = cutoff_diffnorm_buffer;
-		end
+        if (ncorr_util_isrealbb(cutoff_diffnorm_buffer,min_cutoff_diffnorm,max_cutoff_diffnorm,'Difference norm cutoff') == out.success)
+            cutoff_diffnorm_prelim = cutoff_diffnorm_buffer;
+        end
         
         % Set data
         setappdata(handles_gui.figure,'cutoff_diffnorm_prelim',cutoff_diffnorm_prelim); 
@@ -326,9 +326,9 @@ function [radius,spacing,cutoff_diffnorm,cutoff_iteration,total_threads,stepanal
         
         % Get iterations
         cutoff_iteration_buffer = str2double(get(handles_gui.edit_cutoff_iteration,'string')); 
-		if (ncorr_util_isintbb(cutoff_iteration_buffer,min_cutoff_iteration,max_cutoff_iteration,'Iteration number cutoff') == out.success)
-			cutoff_iteration_prelim = cutoff_iteration_buffer;
-		end
+        if (ncorr_util_isintbb(cutoff_iteration_buffer,min_cutoff_iteration,max_cutoff_iteration,'Iteration number cutoff') == out.success)
+            cutoff_iteration_prelim = cutoff_iteration_buffer;
+        end
         
         % Set data
         setappdata(handles_gui.figure,'cutoff_iteration_prelim',cutoff_iteration_prelim);  
@@ -345,9 +345,9 @@ function [radius,spacing,cutoff_diffnorm,cutoff_iteration,total_threads,stepanal
         
         % Get total threads
         total_threads_buffer = str2double(get(handles_gui.edit_thread_total,'string')); 
-		if (ncorr_util_isintbb(total_threads_buffer,min_total_threads,max_total_threads,'Total number of threads') == out.success)
-			total_threads_prelim = total_threads_buffer;
-		end
+        if (ncorr_util_isintbb(total_threads_buffer,min_total_threads,max_total_threads,'Total number of threads') == out.success)
+            total_threads_prelim = total_threads_buffer;
+        end
         
         % Set data
         setappdata(handles_gui.figure,'total_threads_prelim',total_threads_prelim);  
@@ -364,9 +364,9 @@ function [radius,spacing,cutoff_diffnorm,cutoff_iteration,total_threads,stepanal
         
         % Get leapfrog
         step_buffer = str2double(get(handles_gui.edit_leapfrog,'string')); 
-		if (ncorr_util_isintbb(step_buffer,min_step,max_step,'Step number') == out.success)
-			stepanalysis_prelim.step = step_buffer;
-		end
+        if (ncorr_util_isintbb(step_buffer,min_step,max_step,'Step number') == out.success)
+            stepanalysis_prelim.step = step_buffer;
+        end
         
         % Set data
         setappdata(handles_gui.figure,'stepanalysis_prelim',stepanalysis_prelim);  
@@ -631,7 +631,7 @@ function [radius,spacing,cutoff_diffnorm,cutoff_iteration,total_threads,stepanal
             handle_subsetloc = imshow(preview_subsetloc,[imgs(num_img+1).min_gs 3*imgs(num_img+1).max_gs],'Parent',handles_gui.axes_subsetloc);
             set(handles_gui.axes_subsetloc,'Visible','off');
             
-			% Set initial subset image
+            % Set initial subset image
             handle_subset = imshow(preview_subset,[imgs(num_img+1).min_gs 1.25*imgs(num_img+1).max_gs],'Parent',handles_gui.axes_subset);
             set(handles_gui.axes_subset,'Visible','off');
             
@@ -684,8 +684,8 @@ function [radius,spacing,cutoff_diffnorm,cutoff_iteration,total_threads,stepanal
                           
             % Format/show text
             set(handles_gui.text_name,'String',['Name: ' imgs(num_img+1).name(1:min(end,22))]);
-			
-			% Set buttons/editboxes
+            
+            % Set buttons/editboxes
             set(handles_gui.edit_imgnum,'String',num2str(num_img+1));
             if (length(imgs) == 1)
                 set(handles_gui.button_left,'Enable','off');

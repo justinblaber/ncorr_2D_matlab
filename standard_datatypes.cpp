@@ -42,11 +42,11 @@ void get_double_scalar(double &scalar,const mxArray *mat_buf) {
 // NOT THREAD SAFE 
 void get_integer_scalar(int &scalar,const mxArray *mat_buf) {
     // Check input - NOTE: that most systems use 32 bit ints.
-	// To my knowledge both 32 bit and 64 bit unix and windows
-	// use ILP32 (32 bit systems), LP64 (64 bit unix systems), 
-	// and LLP64 (64 bit windows) which specify 32 bit ints. 
-	// This is from stackoverflow. However, be aware that 
-	// int doesnt necessarily have to be 32 bit.
+    // To my knowledge both 32 bit and 64 bit unix and windows
+    // use ILP32 (32 bit systems), LP64 (64 bit unix systems), 
+    // and LLP64 (64 bit windows) which specify 32 bit ints. 
+    // This is from stackoverflow. However, be aware that 
+    // int doesnt necessarily have to be 32 bit.
     if (mxIsClass(mat_buf,"int32")) {
         if (mxGetN(mat_buf) == 1 &&  mxGetM(mat_buf) == 1) {
             // At this point, input is correct
@@ -66,9 +66,9 @@ void get_integer_scalar(int &scalar,const mxArray *mat_buf) {
 // NOT THREAD SAFE 
 void get_logical_scalar(bool &scalar,const mxArray *mat_buf) {
     // Check input - NOTE: that proper implementation would
-	// technically use mxLogical, but in both 32/64 bit linux
-	// and windows systems I've tested, bool has worked. 
-	// Maybe update this in the future.
+    // technically use mxLogical, but in both 32/64 bit linux
+    // and windows systems I've tested, bool has worked. 
+    // Maybe update this in the future.
     if (mxIsClass(mat_buf,"logical")) {
         if (mxGetN(mat_buf) == 1 &&  mxGetM(mat_buf) == 1) {
             // At this point, input is correct
@@ -103,25 +103,25 @@ void class_double_array::reset() {
 
 // NOT THREAD SAFE 
 void class_double_array::alloc(const int &h,const int &w) {
-	if (value == NULL) {
-		width = w;
-		height = h;
-		value = (double *)mxCalloc(h*w,sizeof(double));
-	} else {
+    if (value == NULL) {
+        width = w;
+        height = h;
+        value = (double *)mxCalloc(h*w,sizeof(double));
+    } else {
         mexErrMsgTxt("Memory has already been allocated when attempting to alloc.\n");
-	}
+    }
 }
 
 // NOT THREAD SAFE 
 void class_double_array::free() {
-	if (value != NULL) {
-		width = 0;
-		height = 0;
-		mxFree(value);
-		value = NULL;
-	} else {
-        mexErrMsgTxt("Memory has not been allocated yet when attempting to free.\n");	
-	}
+    if (value != NULL) {
+        width = 0;
+        height = 0;
+        mxFree(value);
+        value = NULL;
+    } else {
+        mexErrMsgTxt("Memory has not been allocated yet when attempting to free.\n");    
+    }
 }
 
 // NOT THREAD SAFE 
@@ -159,31 +159,31 @@ void class_integer_array::reset() {
 
 // NOT THREAD SAFE
 void class_integer_array::alloc(const int &h,const int &w) {
-	if (value == NULL) {
-		width = w;
-		height = h;
-		value = (int *)mxCalloc(h*w,sizeof(int));
-	} else {
+    if (value == NULL) {
+        width = w;
+        height = h;
+        value = (int *)mxCalloc(h*w,sizeof(int));
+    } else {
         mexErrMsgTxt("Memory has already been allocated when attempting to alloc.\n");
-	}
+    }
 }
 
 // NOT THREAD SAFE
 void class_integer_array::free() {
-	if (value != NULL) {
-		width = 0;
-		height = 0;
-		mxFree(value);
-		value = NULL;
-	} else {
-        mexErrMsgTxt("Memory has not been allocated yet when attempting to free.\n");	
-	}
+    if (value != NULL) {
+        width = 0;
+        height = 0;
+        mxFree(value);
+        value = NULL;
+    } else {
+        mexErrMsgTxt("Memory has not been allocated yet when attempting to free.\n");    
+    }
 }
 
 // NOT THREAD SAFE
 void get_integer_array(class_integer_array &array,const mxArray *mat_buf) {
     // Check input - check notes for the int scalar about using the
-	// native int type.
+    // native int type.
     if (mxIsClass(mat_buf,"int32")) {
         // At this point input is correct
         array.width = (int)mxGetN(mat_buf);
@@ -216,31 +216,31 @@ void class_logical_array::reset() {
 
 // NOT THREAD SAFE 
 void class_logical_array::alloc(const int &h,const int &w) {
-	if (value == NULL) {
-		width = w;
-		height = h;
-		value = (bool *)mxCalloc(h*w,sizeof(bool));
-	} else {
+    if (value == NULL) {
+        width = w;
+        height = h;
+        value = (bool *)mxCalloc(h*w,sizeof(bool));
+    } else {
         mexErrMsgTxt("Memory has already been allocated when attempting to alloc.\n");
-	}
+    }
 }
 
 // NOT THREAD SAFE 
 void class_logical_array::free() {
-	if (value != NULL) {
-		width = 0;
-		height = 0;
-		mxFree(value);
-		value = NULL;
-	} else {
-        mexErrMsgTxt("Memory has not been allocated yet when attempting to free.\n");	
-	}
+    if (value != NULL) {
+        width = 0;
+        height = 0;
+        mxFree(value);
+        value = NULL;
+    } else {
+        mexErrMsgTxt("Memory has not been allocated yet when attempting to free.\n");    
+    }
 }
 
 // NOT THREAD SAFE 
 void get_logical_array(class_logical_array &array,const mxArray *mat_buf) {
     // Check input - check notes for the logical scalar about using the
-	// native bool type.
+    // native bool type.
     if (mxIsClass(mat_buf,"logical")) {
         // At this point input is correct
         array.width = (int)mxGetN(mat_buf);
