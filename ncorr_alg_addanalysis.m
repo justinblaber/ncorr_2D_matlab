@@ -33,8 +33,8 @@ function [plot_added,outstate] = ncorr_alg_addanalysis(plots_u,plots_v,rois,spac
     % Note that ncorr_alg_extrapdata will return a separate extrapolated 
     % array for each region within a ROI. This is done to prevent 
     % displacements from adjacent regions from influencing each other.
-	% Also note that the ordering returned forms a correspondence between
-	% the regions stored in rois.
+    % Also note that the ordering returned forms a correspondence between
+    % the regions stored in rois.
     for k = 0:length(plots_u)-1
         plots_u_interp{k+1} = ncorr_alg_extrapdata(plots_u{k+1},rois(k+1).formatted(),int32(border_interp));
         plots_v_interp{k+1} = ncorr_alg_extrapdata(plots_v{k+1},rois(k+1).formatted(),int32(border_interp));

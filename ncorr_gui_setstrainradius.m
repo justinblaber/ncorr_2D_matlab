@@ -148,7 +148,7 @@ function [radius,subsettrunc,outstate] = ncorr_gui_setstrainradius(reference,cur
     end
     
     function callback_checkbox_subsettrunc(hObject,eventdata) %#ok<INUSD>        
-		% Get value
+        % Get value
         subsettrunc_prelim = get(handles_gui.checkbox_subsettrunc,'Value');
         
         % Set data
@@ -168,11 +168,11 @@ function [radius,subsettrunc,outstate] = ncorr_gui_setstrainradius(reference,cur
         
         % Get radius
         radius_buffer = str2double(get(handles_gui.edit_radius,'string')); 
-		if (ncorr_util_isintbb(radius_buffer,min_radius,max_radius,'Radius') == out.success)
-			% Set radius
-			radius_prelim = radius_buffer;  
-			radius_slider_prelim = min(1,max(0,fzero(@(x)get_radius(x)-radius_prelim,0)));
-		end
+        if (ncorr_util_isintbb(radius_buffer,min_radius,max_radius,'Radius') == out.success)
+            % Set radius
+            radius_prelim = radius_buffer;  
+            radius_slider_prelim = min(1,max(0,fzero(@(x)get_radius(x)-radius_prelim,0)));
+        end
         
         % Set data
         setappdata(handles_gui.figure,'radius_prelim',radius_prelim);
@@ -221,7 +221,7 @@ function [radius,subsettrunc,outstate] = ncorr_gui_setstrainradius(reference,cur
         % Set data
         setappdata(handles_gui.figure,'handle_zoom',handle_zoom);  
         
-		% Update
+        % Update
         update_sidemenu();
     end
 
@@ -240,7 +240,7 @@ function [radius,subsettrunc,outstate] = ncorr_gui_setstrainradius(reference,cur
         % Set data
         setappdata(handles_gui.figure,'handle_pan',handle_pan);  
         
-		% Update
+        % Update
         update_sidemenu();
     end
 

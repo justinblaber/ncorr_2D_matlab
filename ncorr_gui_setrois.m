@@ -68,11 +68,11 @@ function [rois,outstate] = ncorr_gui_setrois(imgs,pos_parent,params_init)
         % Update
         update_axes('set');
         update_sidemenu();
-		
+        
         unfreeze_menu();
     end
 
-	function callback_button_loadroi(hObject,evendata) %#ok<INUSD>
+    function callback_button_loadroi(hObject,evendata) %#ok<INUSD>
         freeze_menu();
         
         % Get Data
@@ -85,7 +85,7 @@ function [rois,outstate] = ncorr_gui_setrois(imgs,pos_parent,params_init)
         
         if (outstate_roi == out.success)
             % Convert to binary mask  
-            mask_load_prelim = im2bw(mask_img_prelim.get_gs());        
+            mask_load_prelim = im2bw(mask_img_prelim.get_gs());         %#ok<IM2BW>
 
             % Make sure ROI and image are the same size and that the ROI 
             % is nonempty:
@@ -126,7 +126,7 @@ function [rois,outstate] = ncorr_gui_setrois(imgs,pos_parent,params_init)
         unfreeze_menu();
     end
 
-	function callback_button_drawroi(hObject,evendata) %#ok<INUSD>
+    function callback_button_drawroi(hObject,evendata) %#ok<INUSD>
         freeze_menu();
         
         % Get Data
@@ -141,8 +141,8 @@ function [rois,outstate] = ncorr_gui_setrois(imgs,pos_parent,params_init)
         end
         
         [roi_draw_prelim,outstate_roi] = ncorr_gui_drawroi(imgs(num_img+1), ...
-													       get(handles_gui.figure,'OuterPosition'), ...
-														   params_init_sub);  
+                                                           get(handles_gui.figure,'OuterPosition'), ...
+                                                           params_init_sub);  
         
         if (outstate_roi == out.success)
             % Set ROI
@@ -196,11 +196,11 @@ function [rois,outstate] = ncorr_gui_setrois(imgs,pos_parent,params_init)
         % Update
         update_axes('set');   
         update_sidemenu();
-		
+        
         unfreeze_menu();
     end
 
-	function callback_button_right(hObject,evendata) %#ok<INUSD>
+    function callback_button_right(hObject,evendata) %#ok<INUSD>
         freeze_menu();   
         
         % Get Data
@@ -217,7 +217,7 @@ function [rois,outstate] = ncorr_gui_setrois(imgs,pos_parent,params_init)
         % Update
         update_axes('set');   
         update_sidemenu();
-		
+        
         unfreeze_menu();
     end
 
@@ -269,8 +269,8 @@ function [rois,outstate] = ncorr_gui_setrois(imgs,pos_parent,params_init)
             
             % Format/show text
             set(handles_gui.text_name,'String',['Name: ' imgs(num_img+1).name(1:min(end,22))]);
-			
-			% Set buttons/editboxes
+            
+            % Set buttons/editboxes
             set(handles_gui.edit_imgnum,'String',num2str(num_img+1));
             if (length(imgs) == 1)
                 set(handles_gui.button_left,'Enable','off');

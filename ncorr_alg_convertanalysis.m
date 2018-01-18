@@ -40,8 +40,8 @@ function [plots_disp_new,rois_new,outstate] = ncorr_alg_convertanalysis(img_new,
     % Note that ncorr_alg_extrapdata will return a separate extrapolated 
     % array for each region within a ROI. This is done to prevent 
     % displacements from adjacent regions from influencing each other.
-	% Also note that the ordering returned forms a correspondence between
-	% the regions stored in rois_old.
+    % Also note that the ordering returned forms a correspondence between
+    % the regions stored in rois_old.
     for i = 0:length(imgs_old)-1
         plots_u_interp_old{i+1} = ncorr_alg_extrapdata(plots_u_old{i+1},rois_old(i+1).formatted(),int32(border_interp));
         plots_v_interp_old{i+1} = ncorr_alg_extrapdata(plots_v_old{i+1},rois_old(i+1).formatted(),int32(border_interp));

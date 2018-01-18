@@ -9,7 +9,7 @@ function [seedinfo,threaddiagram,outstate] = ncorr_gui_setseeds(reference,curren
 %   and calculations
 %   roi - ncorr_class_roi; roi corresponding to the reference image.
 %   num_region - integer; number corresponding to the region; 
-%	spacing - integer; spacing between subsets
+%   spacing - integer; spacing between subsets
 %   radius - integer; radius of subsets
 %   cutoff_diffnorm - double; cutoff of norm of the difference vector
 %   cutoff_iteration - integer; cutoff for the number of iterations
@@ -79,7 +79,7 @@ function [seedinfo,threaddiagram,outstate] = ncorr_gui_setseeds(reference,curren
         
         % Set visible        
         set(handles_gui.figure,'Visible','on');         
-    end	
+    end    
 
     function callback_button_setseeds(hObject,eventdata) %#ok<INUSD>
         freeze_menu();
@@ -159,9 +159,9 @@ function [seedinfo,threaddiagram,outstate] = ncorr_gui_setseeds(reference,curren
                                 
         % Update
         update_sidemenu();
-		
+        
         unfreeze_menu();
-    end	
+    end    
 
     function callback_button_finish(hObject,eventdata) %#ok<INUSD>
         % Get data

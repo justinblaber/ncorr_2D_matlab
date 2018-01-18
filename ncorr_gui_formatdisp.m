@@ -64,7 +64,7 @@ function [plots_disp_f,rois_f,pixtounits,units,cutoff_corrcoef,lenscoef,outstate
                 
         % Form buffers
         if (isempty(params_init))
-            pixtounits_prelim = 1;	% Just keep pixels if nothing is specified
+            pixtounits_prelim = 1;    % Just keep pixels if nothing is specified
             units_prelim = 'pixels';
             lenscoef_prelim = 0;
         else
@@ -139,8 +139,8 @@ function [plots_disp_f,rois_f,pixtounits,units,cutoff_corrcoef,lenscoef,outstate
         update_sidemenu();  
     end
 
-    function callback_checkbox_maxminmarkers(hObject,eventdata) %#ok<INUSD>		
-		% Get value
+    function callback_checkbox_maxminmarkers(hObject,eventdata) %#ok<INUSD>        
+        % Get value
         val_checkbox_minmaxmarkers = get(handles_gui.checkbox_maxminmarkers,'Value');
         
         % Set data
@@ -158,13 +158,13 @@ function [plots_disp_f,rois_f,pixtounits,units,cutoff_corrcoef,lenscoef,outstate
         
         % Get Value - set min value to right above zero.
         pixtounits_buffer = str2double(get(handles_gui.edit_pixtounits,'string'));        
-		if (ncorr_util_isrealbb(pixtounits_buffer,1e-14,inf,'Pixel to units conversion factor') == out.success) 
-			% Store in buffer
-			pixtounits_prelim = pixtounits_buffer;
-						
-			% Get displacements
+        if (ncorr_util_isrealbb(pixtounits_buffer,1e-14,inf,'Pixel to units conversion factor') == out.success) 
+            % Store in buffer
+            pixtounits_prelim = pixtounits_buffer;
+                        
+            % Get displacements
             plots_disp_f_prelim = get_disp(pixtounits_prelim,lenscoef_prelim);
-		end
+        end
 
         % Store data
         setappdata(handles_gui.figure,'pixtounits_prelim',pixtounits_prelim);
@@ -193,16 +193,16 @@ function [plots_disp_f,rois_f,pixtounits,units,cutoff_corrcoef,lenscoef,outstate
         num_img = getappdata(handles_gui.figure,'num_img');       
         
         cutoff_corrcoef_prelim = str2double(get(handles_gui.edit_corrcutoff,'string')); 
-		if (ncorr_util_isrealbb(cutoff_corrcoef_prelim,corrcoef_buffer(num_img+1,3),max_cutoff_corrcoef,'Correlation Coefficient') == out.success)
-			if (abs(corrcoef_buffer(num_img+1,2)-corrcoef_buffer(num_img+1,3)) <= 1e-10)
-				corrcoef_prelim = 1;
-			else
-				corrcoef_prelim = (cutoff_corrcoef_prelim-corrcoef_buffer(num_img+1,3))/(corrcoef_buffer(num_img+1,2)-corrcoef_buffer(num_img+1,3));
-			end
-			
-			% Store in buffer
-			corrcoef_buffer(num_img+1,1) = corrcoef_prelim;
-		end
+        if (ncorr_util_isrealbb(cutoff_corrcoef_prelim,corrcoef_buffer(num_img+1,3),max_cutoff_corrcoef,'Correlation Coefficient') == out.success)
+            if (abs(corrcoef_buffer(num_img+1,2)-corrcoef_buffer(num_img+1,3)) <= 1e-10)
+                corrcoef_prelim = 1;
+            else
+                corrcoef_prelim = (cutoff_corrcoef_prelim-corrcoef_buffer(num_img+1,3))/(corrcoef_buffer(num_img+1,2)-corrcoef_buffer(num_img+1,3));
+            end
+            
+            % Store in buffer
+            corrcoef_buffer(num_img+1,1) = corrcoef_prelim;
+        end
         
         % Store data
         setappdata(handles_gui.figure,'corrcoef_buffer',corrcoef_buffer);
@@ -266,7 +266,7 @@ function [plots_disp_f,rois_f,pixtounits,units,cutoff_corrcoef,lenscoef,outstate
             % Get data
             lenscoef_prelim = getappdata(handles_gui.figure,'lenscoef_prelim');
 
-			% Get displacements
+            % Get displacements
             plots_disp_f_prelim = get_disp(pixtounits_prelim,lenscoef_prelim);
             
             % Set Data
@@ -330,7 +330,7 @@ function [plots_disp_f,rois_f,pixtounits,units,cutoff_corrcoef,lenscoef,outstate
         % Set data
         setappdata(handles_gui.figure,'handle_zoom',handle_zoom);  
         
-		% Update
+        % Update
         update_sidemenu()
     end
 
@@ -349,7 +349,7 @@ function [plots_disp_f,rois_f,pixtounits,units,cutoff_corrcoef,lenscoef,outstate
         % Set data
         setappdata(handles_gui.figure,'handle_pan',handle_pan);  
         
-		% Update
+        % Update
         update_sidemenu()
     end
 
@@ -403,8 +403,8 @@ function [plots_disp_f,rois_f,pixtounits,units,cutoff_corrcoef,lenscoef,outstate
                 % Get ROI - union will preserve region correspondences but
                 % new regions may or may not be contiguous.
                 rois_f(i+1) = roi(i+1).get_union(mask_cc,0);
-				
-				% See if analysis was cancelled by user
+                
+                % See if analysis was cancelled by user
                 if (getappdata(h,'canceling'))
                     delete(h);                    
                     % Exit
@@ -416,7 +416,7 @@ function [plots_disp_f,rois_f,pixtounits,units,cutoff_corrcoef,lenscoef,outstate
             
             % Close wait bar     
             delete(h);
-			
+            
             % Set dispinfo parameters
             pixtounits = pixtounits_prelim;
             units = units_prelim;

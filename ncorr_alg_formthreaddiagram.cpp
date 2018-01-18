@@ -15,19 +15,19 @@
 class class_formthreaddiagram {
 public:
     // Constructor
-	class_formthreaddiagram(mxArray *plhs [ ],const mxArray *prhs [ ]);
+    class_formthreaddiagram(mxArray *plhs [ ],const mxArray *prhs [ ]);
     
     // Methods
-	void analysis();
-	void analyzepoint(const int &x_new,const int &y_new,const int &num_queue);
+    void analysis();
+    void analyzepoint(const int &x_new,const int &y_new,const int &num_queue);
 
 private:
-	// Properties
-	// Inputs:
+    // Properties
+    // Inputs:
     class_double_array threaddiagram;           // standard datatype
     class_double_array preview_threaddiagram;   // standard datatype
     class_integer_array generators;             // standard datatype
-	class_logical_array regionmask;             // standard datatype
+    class_logical_array regionmask;             // standard datatype
     std::vector<ncorr_class_img> img;           // ncorr datatype   
     
     // Other:
@@ -36,9 +36,9 @@ private:
 };
 
 class_formthreaddiagram::class_formthreaddiagram(mxArray *plhs [ ],const mxArray *prhs[ ]) {
-	// Form inputs ------------------------------------//
+    // Form inputs ------------------------------------//
     // input 1: threaddiagram
-	get_double_array(threaddiagram,prhs[0]); 
+    get_double_array(threaddiagram,prhs[0]); 
     // input 2: preview_threaddiagram
     get_double_array(preview_threaddiagram,prhs[1]); 
     // input 3: generators
@@ -46,9 +46,9 @@ class_formthreaddiagram::class_formthreaddiagram(mxArray *plhs [ ],const mxArray
     // input 4: regionmask
     get_logical_array(regionmask,prhs[3]);  
     // input 5: image (reduced)
-	get_imgs(img,prhs[4]); 
+    get_imgs(img,prhs[4]); 
     
-	// Check inputs	- these are rudimentary 
+    // Check inputs - these are rudimentary 
     if (img[0].gs.height == threaddiagram.height &&
         img[0].gs.width == threaddiagram.width &&
         img[0].gs.height == preview_threaddiagram.height &&
@@ -88,12 +88,12 @@ void class_formthreaddiagram::analysis() {
     for (int i=0; i<generators.height; i++) {
         // Paint
         threaddiagram.value[generators.value[i+generators.height] + generators.value[i]*threaddiagram.height] = i; 
-		
+        
         // Store coords
         coords_buffer[0] = generators.value[i];                      // X-coord
         coords_buffer[1] = generators.value[i+generators.height];    // Y-coord
         
-		// Push back
+        // Push back
         queue[i].push_back(coords_buffer);    
     }      
     
@@ -105,7 +105,7 @@ void class_formthreaddiagram::analysis() {
         for (int i=0; i<(int)queue.size(); i++) {
             // Make sure queue is not empty
             if (queue[i].size() > 0) {              
-				// analyzepoint adds points using push_back, so this preserves the front
+                // analyzepoint adds points using push_back, so this preserves the front
                 analyzepoint(queue[i].front()[0]-1,queue[i].front()[1],i);
                 analyzepoint(queue[i].front()[0],queue[i].front()[1]-1,i);
                 analyzepoint(queue[i].front()[0]+1,queue[i].front()[1],i);
@@ -115,7 +115,7 @@ void class_formthreaddiagram::analysis() {
                 queue[i].pop_front();
             }
         }           
-		
+        
         // Cycle over queue and recalculate total_queue
         total_queue = 0;
         for (int i=0; i<(int)queue.size(); i++) { 
@@ -123,8 +123,8 @@ void class_formthreaddiagram::analysis() {
         }        
     }   
         
-	// Go over entire mask to form preview_threaddiagram. Add a double highlight for points on the boundary between regions,
-	// and then add just a normal highlight for the interior regions
+    // Go over entire mask to form preview_threaddiagram. Add a double highlight for points on the boundary between regions,
+    // and then add just a normal highlight for the interior regions
     for (int i=0; i<regionmask.width; i++) {        
         int x = i;
         for (int j=0; j<regionmask.height; j++) {
@@ -133,11 +133,11 @@ void class_formthreaddiagram::analysis() {
                 // This is an interior point 
                 if (x == 0 || x ==  regionmask.width-1 || y == 0 || y == regionmask.height-1) {
                     // This is a point on the boundary of regionmask, since its true, its automatically a boundary point
-					// Use a double highlight
+                    // Use a double highlight
                     preview_threaddiagram.value[y+x*preview_threaddiagram.height] = 2*img[0].max_gs;
                 } else {
                     // This is an interior point of the region mask, see if a 9 neighborhood region contains two different values; if so it's a boundary point
-                    double val_center = threaddiagram.value[y+x*threaddiagram.height];	
+                    double val_center = threaddiagram.value[y+x*threaddiagram.height];    
                     bool same = true;
                     for (int k=-1; k<=1; k++) {
                         for (int l=-1; l<=1; l++) {
@@ -155,7 +155,7 @@ void class_formthreaddiagram::analysis() {
                             preview_threaddiagram.value[y+x*preview_threaddiagram.height] = img[0].gs.value[y+x*img[0].gs.height]+img[0].max_gs;
                         }
                     }
-                }	
+                }    
             } else {
                 // Point is outside region - Set this as just a normal greyscale value
                 preview_threaddiagram.value[y+x*preview_threaddiagram.height] = img[0].gs.value[y+x*img[0].gs.height];
@@ -168,7 +168,7 @@ void class_formthreaddiagram::analyzepoint(const int &x_new,const int &y_new,con
 // This function checks to make sure point is valid and then paints/adds it
     if (y_new >= 0 && y_new < threaddiagram.height && 
         x_new >= 0 && x_new < threaddiagram.width) {
-		// Check to make sure value is still -1 and within the regionmask
+        // Check to make sure value is still -1 and within the regionmask
         if (threaddiagram.value[y_new + x_new*threaddiagram.height] == -1.0 &&
             regionmask.value[y_new + x_new*regionmask.height]) {    
             // Paint
@@ -188,10 +188,10 @@ void mexFunction(int nlhs,mxArray *plhs[ ],int nrhs,const mxArray *prhs[ ]) {
     if (nrhs == 5 && nlhs == 0) {
         // Create formthreaddiagram
         class_formthreaddiagram formthreaddiagram(plhs,prhs);
-		
+        
         // Run analysis and assign outputs
         formthreaddiagram.analysis();
-	} else {
-		mexErrMsgTxt("Only five inputs and no output arguments.\n");
+    } else {
+        mexErrMsgTxt("Only five inputs and no output arguments.\n");
     }
 }

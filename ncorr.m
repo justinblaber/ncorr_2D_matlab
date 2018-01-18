@@ -2,8 +2,6 @@ classdef ncorr < handle
 %-------------------------------------------------------------------------%
 %-------------------------------------------------------------------------%
 %
-% Version: 1.2.2
-% Date: 6/13/2017
 % Programmed by: Justin Blaber
 % Principle Investigator: Antonia Antoniou
 %
@@ -46,7 +44,7 @@ classdef ncorr < handle
 %
 % MAIN FLOW OF CALLBACK:
 %
-%	1) Update UI controls. Generally, if a menu option updates information, 
+%   1) Update UI controls. Generally, if a menu option updates information, 
 %      it will freeze the top menu to prevent users from calling other 
 %      options while the first one is running. 
 %   2) Check if data will be overwritten with: "overwrite = clear_downstream('callback')"
@@ -162,7 +160,7 @@ classdef ncorr < handle
             % Note that if ncorr.m is not in the current directory, then
             % path has already been set.
             listing = dir;            
-            if (isempty(strfind(lower(path),lower(pwd))) && any(strcmp('ncorr.m',{listing.name}))) 
+            if (isempty(strfind(lower(path),lower(pwd))) && any(strcmp('ncorr.m',{listing.name})))  %#ok<STREMP>
                 % Ask user if its okay to add path
                 contbutton = questdlg('Path has not been set. Path must be set before running program. Press yes to add path.','Continue Operation','Yes','No','Yes');     
                 if (strcmp(contbutton,'Yes'))
@@ -473,9 +471,9 @@ classdef ncorr < handle
                         % At this point, roi_prelim fits the critera for a ROI. Show ROI
                         % overlayed and ask user if ROI is appropriate:        
                         outstate = ncorr_gui_loadroi(obj.reference.imginfo, ...
-													 roi_prelim, ...
-													 get(obj.handles_gui.figure,'OuterPosition'));
-													
+                                                     roi_prelim, ...
+                                                     get(obj.handles_gui.figure,'OuterPosition'));
+                                                    
                         if (outstate == out.success)
                             % See if data will be overwritten
                             overwrite = obj.clear_downstream('set_roi');
@@ -533,9 +531,9 @@ classdef ncorr < handle
                         % At this point, roi_prelim fits the critera for a ROI. Show ROI
                         % overlayed and ask user if ROI is appropriate:        
                         outstate = ncorr_gui_loadroi(obj.current(end).imginfo, ...
-											         roi_prelim, ...
-													 get(obj.handles_gui.figure,'OuterPosition'));
-													
+                                                     roi_prelim, ...
+                                                     get(obj.handles_gui.figure,'OuterPosition'));
+                                                    
                         if (outstate == out.success)
                             % See if data will be overwritten
                             overwrite = obj.clear_downstream('set_roi');
@@ -624,7 +622,7 @@ classdef ncorr < handle
         % This is the callback for loading data from a previous analysis. 
             % Get data filename
             [filename,pathname] = uigetfile({'*.mat'},'Select the previous DIC data (must be .dat)');
-            if (~isequal(filename,0) && ~isequal(pathname,0));
+            if (~isequal(filename,0) && ~isequal(pathname,0))
                 try
                     % Load data
                     struct_load = load(fullfile(pathname,filename));
@@ -667,12 +665,12 @@ classdef ncorr < handle
                                         % Do current images next
                                         cur_prelim = ncorr_class_img.empty;
                                         for i = 0:length(struct_load.current_save)-1
-											[cur_buffer,outstate_cur] = ncorr_util_loadsavedimg(struct_load.current_save(i+1));
-											if (outstate_cur == out.success)
-												cur_prelim(i+1) = cur_buffer;
-											else
-												break;
-											end
+                                            [cur_buffer,outstate_cur] = ncorr_util_loadsavedimg(struct_load.current_save(i+1));
+                                            if (outstate_cur == out.success)
+                                                cur_prelim(i+1) = cur_buffer;
+                                            else
+                                                break;
+                                            end
                                         end       
 
                                         if (outstate_ref == out.success && outstate_cur == out.success)        
@@ -744,7 +742,7 @@ classdef ncorr < handle
         % This is the callback for saving data. 
             % Get save data filename
             [filename,pathname] = uiputfile({'*.mat'},'Save DIC data (must be .dat)');
-            if (~isequal(filename,0) && ~isequal(pathname,0));
+            if (~isequal(filename,0) && ~isequal(pathname,0))
                 % Check if data will be overwritten in directory
                 overwrite = true;
                 if (exist(fullfile(pathname,filename),'file'))
@@ -1053,7 +1051,7 @@ classdef ncorr < handle
                         % reference image
                         imgcorr_prelim(end+1).idx_ref = imgcorr_prelim(end).idx_cur; %#ok<AGROW>
                     end
-					
+                    
                     % Update idx_cur
                     if (obj.data_dic.dispinfo.stepanalysis.enabled && strcmp(obj.data_dic.dispinfo.stepanalysis.type,'leapfrog'))
                         % If leapfrog is used, then set current image to a
@@ -1137,7 +1135,7 @@ classdef ncorr < handle
                         % reference image
                         imgcorr_prelim(end+1).idx_ref = imgcorr_prelim(end).idx_cur; %#ok<AGROW>
                     end
-					
+                    
                     % Update idx_cur
                     if (obj.data_dic.dispinfo.stepanalysis.enabled && strcmp(obj.data_dic.dispinfo.stepanalysis.type,'leapfrog'))
                         % If leapfrog is used, then set current image to a
@@ -1328,14 +1326,14 @@ classdef ncorr < handle
                 
                 % Format step displacements ------------------------------%
                 [plots_disp_f_step_prelim,rois_f_step_prelim,pixtounits_prelim,units_prelim,cutoff_corrcoef_prelim,lenscoef_prelim,outstate_formatdisp_step] = ncorr_gui_formatdisp(imgs_ref, ...
-																																												    imgs_cur, ...
-																																												    [obj.data_dic.displacements.roi_dic], ...                 
-																																												    {obj.data_dic.displacements.plot_u_dic}, ...  
-																																												    {obj.data_dic.displacements.plot_v_dic}, ...      
-																																												    {obj.data_dic.displacements.plot_corrcoef_dic}, ...  
-																																												    obj.data_dic.dispinfo.spacing, ...                                                                                                                                                                                
+                                                                                                                                                                                    imgs_cur, ...
+                                                                                                                                                                                    [obj.data_dic.displacements.roi_dic], ...                 
+                                                                                                                                                                                    {obj.data_dic.displacements.plot_u_dic}, ...  
+                                                                                                                                                                                    {obj.data_dic.displacements.plot_v_dic}, ...      
+                                                                                                                                                                                    {obj.data_dic.displacements.plot_corrcoef_dic}, ...  
+                                                                                                                                                                                    obj.data_dic.dispinfo.spacing, ...                                                                                                                                                                                
                                                                                                                                                                                     get(obj.handles_gui.figure,'OuterPosition'), ...
-																																												    params_init);
+                                                                                                                                                                                    params_init);
                 % Check if analysis was cancelled
                 if (outstate_formatdisp_step ~= out.success)
                     return;
@@ -1434,14 +1432,14 @@ classdef ncorr < handle
                 
                 % Format step displacements ------------------------------%
                 [plots_disp_f_step_prelim,rois_f_step_prelim,pixtounits_prelim,units_prelim,cutoff_corrcoef_prelim,lenscoef_prelim,outstate_formatdisp_step] = ncorr_gui_formatdisp(imgs_ref, ...
-																																												    imgs_cur, ...
-																																												    [obj.data_dic.displacements.roi_dic], ...                 
-																																												    {obj.data_dic.displacements.plot_u_dic}, ...  
-																																												    {obj.data_dic.displacements.plot_v_dic}, ...      
-																																												    {obj.data_dic.displacements.plot_corrcoef_dic}, ...  
-																																												    obj.data_dic.dispinfo.spacing, ...                                                                                                                                                                                 
+                                                                                                                                                                                    imgs_cur, ...
+                                                                                                                                                                                    [obj.data_dic.displacements.roi_dic], ...                 
+                                                                                                                                                                                    {obj.data_dic.displacements.plot_u_dic}, ...  
+                                                                                                                                                                                    {obj.data_dic.displacements.plot_v_dic}, ...      
+                                                                                                                                                                                    {obj.data_dic.displacements.plot_corrcoef_dic}, ...  
+                                                                                                                                                                                    obj.data_dic.dispinfo.spacing, ...                                                                                                                                                                                 
                                                                                                                                                                                     get(obj.handles_gui.figure,'OuterPosition'), ...
-																																												    params_init);
+                                                                                                                                                                                    params_init);
                 % Check if analysis was cancelled
                 if (outstate_formatdisp_step ~= out.success)
                     return;
@@ -1799,7 +1797,7 @@ classdef ncorr < handle
         %-----------------------------------------------------------------%
         % Other Callbacks ------------------------------------------------%
         %-----------------------------------------------------------------%               
-			   
+               
         function callback_update_title(obj,hObject,eventdata) %#ok<INUSD>
         % This function will update the title of ncorr to display the
         % handle pointing to ncorr
@@ -1813,7 +1811,7 @@ classdef ncorr < handle
                 set(obj.handles_gui.figure,'Name',['Ncorr - ' name]); 
             end
         end
-			   
+               
         function callback_edit_imgnum(obj,hObject,eventdata) %#ok<INUSD>
         % This is the callback for setting the image number directly
             % Get data
@@ -1955,7 +1953,7 @@ classdef ncorr < handle
         % strain plots, or all the plots.                 
             
             % Displacement plots
-            if (strcmp(closetype,'displacements') || strcmp(closetype,'all'));                  
+            if (strcmp(closetype,'displacements') || strcmp(closetype,'all'))                  
                 % Get data
                 handles_plot = getappdata(obj.handles_gui.figure,'handles_plot');  
                 
@@ -1972,7 +1970,7 @@ classdef ncorr < handle
             end
 
             % Strain plots
-            if (strcmp(closetype,'strains') || strcmp(closetype,'all'));  
+            if (strcmp(closetype,'strains') || strcmp(closetype,'all'))  
                 % Get Data
                 handles_plot = getappdata(obj.handles_gui.figure,'handles_plot');  
                 
@@ -2506,7 +2504,7 @@ classdef ncorr < handle
             % learning toolboxes so just search for "Statistics" to work
             % for both cases.
             v = ver;
-            if (isempty(strfind([v.Name],'Image Processing Toolbox')) || isempty(strfind([v.Name],'Statistics'))) 
+            if (isempty(strfind([v.Name],'Image Processing Toolbox')) || isempty(strfind([v.Name],'Statistics')))  %#ok<STREMP>
                 h_error = errordlg('Requires the image processing and statistics toolbox.','Error','modal');
                 uiwait(h_error);                
                 return;
@@ -2674,11 +2672,11 @@ classdef ncorr < handle
                                 % Get compiler
                                 compiler = info_comp.Details.CompilerExecutable;
                                 
-                                if (~isempty(strfind(compiler,'cl')))
+                                if (~isempty(strfind(compiler,'cl'))) %#ok<STREMP>
                                     % This is Microsoft visual studio
                                     % Openmp flag is /openmp
                                     flags_f = horzcat(flags_f{:},{'COMPFLAGS="$COMPFLAGS'},{'/openmp'},{'/DNCORR_OPENMP"'});
-                                elseif (~isempty(strfind(compiler,'g++')))
+                                elseif (~isempty(strfind(compiler,'g++'))) %#ok<STREMP>
                                     % This is the GNU compiler; this is 
                                     % assumed to be Linux.
                                     % NOTE: GCC must manually link 
@@ -2781,7 +2779,7 @@ classdef ncorr < handle
         
         function handles_gui = init_gui(obj)
             % Initialize GUI Figure --------------------------------------%
-			% Start Ncorr in the middle of the screen
+            % Start Ncorr in the middle of the screen
             set(0,'units','characters'); % Set this every time incase user changes units of root
             pos_screen = get(0,'screensize');
             
@@ -3560,9 +3558,9 @@ function [support_openmp,total_cores,outstate] = gui_install(pos_parent)
         
         % Get buffer
         total_cores_buffer = str2double(get(handles_gui.edit_total_cores,'string')); 
-		if (ncorr_util_isintbb(total_cores_buffer,total_cores_min,total_cores_max,'Number of cores') == out.success)
-			total_cores_prelim = total_cores_buffer;       
-		end
+        if (ncorr_util_isintbb(total_cores_buffer,total_cores_min,total_cores_max,'Number of cores') == out.success)
+            total_cores_prelim = total_cores_buffer;       
+        end
         
         % Set data
         setappdata(handles_gui.figure,'total_cores_prelim',total_cores_prelim);

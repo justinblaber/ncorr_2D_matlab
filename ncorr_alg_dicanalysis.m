@@ -25,7 +25,7 @@ function [displacements,rois_dic,seedinfo,outstate] = ncorr_alg_dicanalysis(imgs
 %   displacements - struct; contains
 %   struct('plot_u',{},'plot_v',{},'plot_corrcoef',{},'plot_validpoints',{}) 
 %   rois_dic - ncorr_class_img; ROIs after being unioned with reference roi 
-% 	and validpoints from DIC analysis.
+%   and validpoints from DIC analysis.
 %   seedinfo - struct; contains struct('paramvector',{},'num_region',{},
 %   'num_thread',{},'computepoints',{})
 %   outstate - integer; returns either out.cancelled, out.failed, or

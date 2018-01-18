@@ -14,15 +14,15 @@
 class class_formregions {
 public:
     // Constructor
-	class_formregions(mxArray *plhs [ ],const mxArray *prhs [ ]);
+    class_formregions(mxArray *plhs [ ],const mxArray *prhs [ ]);
     
     // Methods
-	void analysis();
+    void analysis();
 
 private:
-	// Properties
-	// Inputs:
-	class_logical_array mask;   // standard datatype
+    // Properties
+    // Inputs:
+    class_logical_array mask;   // standard datatype
     int cutoff;                 // standard datatype
     bool preservelength;        // standard datatype
 
@@ -30,35 +30,35 @@ private:
     mxArray *mat_regions;
     bool *removed;
 
-	// Other variables:
-	int numfields;
+    // Other variables:
+    int numfields;
 };
 
 class_formregions::class_formregions(mxArray *plhs [ ],const mxArray *prhs[ ]) {
-	// Get inputs -------------------------------------//
+    // Get inputs -------------------------------------//
     // input 1: mask
-	get_logical_array(mask,prhs[0]);     
+    get_logical_array(mask,prhs[0]);     
     // input 2: cutoff
     get_integer_scalar(cutoff,prhs[1]);  
     // input 3: preservelength - this parameters tells whether to preserve the width of the mask when forming the noderange/nodelist
     get_logical_scalar(preservelength,prhs[2]); 
-    	
+        
     // Form/set Outputs -------------------------------//
     // output 1: regions
     mwSize dims[2] = {0,0};
     numfields = 7;
     const char *fieldnames[] = {"nodelist","noderange","leftbound","rightbound","upperbound","lowerbound","totalpoints"};
     mat_regions = mxCreateStructArray(2,dims,numfields,fieldnames);
-	plhs[0] = mat_regions;
+    plhs[0] = mat_regions;
     
     // output 2: removed - tells user if small regions were removed due to the cutoff      
-	mxArray *mat_removed = mxCreateLogicalMatrix(1,1);
-	plhs[1] = mat_removed;	
-	
-	// Get outputs ------------------------------------//
+    mxArray *mat_removed = mxCreateLogicalMatrix(1,1);
+    plhs[1] = mat_removed;    
+    
+    // Get outputs ------------------------------------//
     // output 1: regions
-	// This output is a structure whose elements' size is not known beforehand, so get them in the analysis function
-	
+    // This output is a structure whose elements' size is not known beforehand, so get them in the analysis function
+    
     // output 2: removed
     removed = mxGetLogicals(mat_removed);
 }
@@ -68,13 +68,13 @@ class_formregions::class_formregions(mxArray *plhs [ ],const mxArray *prhs[ ]) {
 // ----------------------------------------------------//
 
 void class_formregions::analysis() {            
-	// Initialize removed to false
+    // Initialize removed to false
     *removed = false; // Set to true if small regions were removed
-	
+    
     // Initialize regions to send to form_regions - used vec_struct_region
     std::vector<vec_struct_region> regions;
     
-	// Call ncorr_lib form_regions function
+    // Call ncorr_lib form_regions function
     form_regions(regions,*removed,mask,cutoff,preservelength);
     
     // Resize structure and store info
@@ -93,9 +93,9 @@ void class_formregions::analysis() {
 
         // Get Data
         class_double_array nodelist;
-		class_double_array noderange; 
-		get_double_array(nodelist,mat_nodelist);
-		get_double_array(noderange,mat_noderange);
+        class_double_array noderange; 
+        get_double_array(nodelist,mat_nodelist);
+        get_double_array(noderange,mat_noderange);
         double *leftbound = mxGetPr(mat_leftbound);
         double *rightbound = mxGetPr(mat_rightbound);
         double *upperbound = mxGetPr(mat_upperbound);
@@ -122,7 +122,7 @@ void class_formregions::analysis() {
         mxSetFieldByNumber(mat_regions,i,3,mat_rightbound);
         mxSetFieldByNumber(mat_regions,i,4,mat_upperbound);
         mxSetFieldByNumber(mat_regions,i,5,mat_lowerbound);
-        mxSetFieldByNumber(mat_regions,i,6,mat_totalpoints);	
+        mxSetFieldByNumber(mat_regions,i,6,mat_totalpoints);    
     }
 }
 
@@ -130,10 +130,10 @@ void mexFunction(int nlhs,mxArray *plhs[ ],int nrhs,const mxArray *prhs[ ]) {
     if (nrhs == 3 && nlhs == 2) {
         // Create formregions
         class_formregions formregions(plhs,prhs);
-		
+        
         // Run analysis and assign outputs
         formregions.analysis();
-	} else {
-		mexErrMsgTxt("Incorrect number of input and output arguments.\n");
+    } else {
+        mexErrMsgTxt("Incorrect number of input and output arguments.\n");
     }
 }

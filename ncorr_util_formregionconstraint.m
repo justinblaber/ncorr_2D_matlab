@@ -108,7 +108,7 @@ function y_nearest = nearestnode(nodelist,noderange,y_coord)
 % that nodelist and noderange are a single column for a specific x position. 
 % Uses zero based indexing.
 
-	% Initialize    
+    % Initialize    
     y_nearest = -1;
     for i = 0:2:noderange-1
         % Test if node is before, within, or after a node pair

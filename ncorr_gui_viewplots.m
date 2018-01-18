@@ -198,8 +198,8 @@ function handles_gui = ncorr_gui_viewplots(reference,current,data_dic,type_plot,
         % gui_savesize is a local function with a GUI; it allows the user
         % to modify the size of the image
         [size_savefig,timedelay,outstate] = gui_savesize(handles_gui_savefig, ...
-														 false, ...
-														 get(handles_gui.figure,'OuterPosition')); %#ok<*ASGLU>
+                                                         false, ...
+                                                         get(handles_gui.figure,'OuterPosition')); %#ok<*ASGLU>
         
         if (outstate == out.success)
             % Save image -------------------------------------------------%   
@@ -257,8 +257,8 @@ function handles_gui = ncorr_gui_viewplots(reference,current,data_dic,type_plot,
             % gui_savesize is a local function with a GUI; it allows the user
             % to modify the size of the image
             [size_savefig,timedelay,outstate] = gui_savesize(handles_gui_savefig, ...
-														     true, ...
-															 get(handles_gui.figure,'OuterPosition'));
+                                                             true, ...
+                                                             get(handles_gui.figure,'OuterPosition'));
                                                         
             if (outstate == out.success)
                 [filename,pathname] = uiputfile({'*.gif'},'Save Image');
@@ -271,7 +271,7 @@ function handles_gui = ncorr_gui_viewplots(reference,current,data_dic,type_plot,
                             overwrite = false;
                         end
                     end   
-					
+                    
                     if (overwrite)  
                         % Save initial image -----------------------------%
                         img_printscreen = getframe(handles_gui_savefig.figure); 
@@ -435,12 +435,12 @@ function handles_gui = ncorr_gui_viewplots(reference,current,data_dic,type_plot,
         
         % Get Value
         scalebarlength_buffer = str2double(get(handles_gui.edit_scalebarlength,'string'));
-		if (ncorr_util_isrealbb(scalebarlength_buffer,0,max_scalebarlength,'Scalebar Length') == out.success)
-			% Update buffer
-			scalebarlength = scalebarlength_buffer;
-			
+        if (ncorr_util_isrealbb(scalebarlength_buffer,0,max_scalebarlength,'Scalebar Length') == out.success)
+            % Update buffer
+            scalebarlength = scalebarlength_buffer;
+            
             % Update other plots in friend list
-			for i = 0:length(friends)-1        
+            for i = 0:length(friends)-1        
                 if (~strcmp(getappdata(friends{i+1}.figure,'type_plot'),type_plot))   
                     % Must check to make sure figure has not been closed during
                     % callback since protection is only gauranteed for this
@@ -458,8 +458,8 @@ function handles_gui = ncorr_gui_viewplots(reference,current,data_dic,type_plot,
                         end
                     end  
                 end
-			end
-		end
+            end
+        end
         
         % Set data
         setappdata(handles_gui.figure,'scalebarlength',scalebarlength);
@@ -837,21 +837,21 @@ function handles_gui = ncorr_gui_viewplots(reference,current,data_dic,type_plot,
             % Place markers in min/max location        
             datamax = max(data);
             datamin = min(data);
-			
+            
             % Max marker
             [y_max,x_max] = find(plot_data == datamax,1);
             handle_point_max = impoint(handles_gui_sub.axes_formatplot,x_max,y_max);
             setColor(handle_point_max,'g');
             set(handle_point_max,'UIContextMenu','');
             set(handle_point_max,'ButtonDownFcn','');
-			
+            
             % Min Marker
             [y_min,x_min] = find(plot_data == datamin,1);
             handle_point_min = impoint(handles_gui_sub.axes_formatplot,x_min,y_min);
             setColor(handle_point_min,'g');
             set(handle_point_min,'UIContextMenu','');
             set(handle_point_min,'ButtonDownFcn','');        
-			
+            
             % Set invisible if markers are disabled
             if (~val_checkbox_minmaxmarkers)
                 set(handle_point_max,'Visible','off');
@@ -916,9 +916,9 @@ function handles_gui = ncorr_gui_viewplots(reference,current,data_dic,type_plot,
                 end
                 if (strcmp(type_plot_sub,'exx') || strcmp(type_plot_sub,'exy') || strcmp(type_plot_sub,'eyy'))
                     if (data_dic.straininfo.subsettrunc)
-                        string_subsettrunc = horzcat(string_subsettrunc,' | Strain Subset Truncation: Enabled'); %#ok<AGROW>
+                        string_subsettrunc = horzcat(string_subsettrunc,' | Strain Subset Truncation: Enabled'); 
                     else
-                        string_subsettrunc = horzcat(string_subsettrunc,' | Strain Subset Truncation: Disabled'); %#ok<AGROW>
+                        string_subsettrunc = horzcat(string_subsettrunc,' | Strain Subset Truncation: Disabled'); 
                     end
                 end
                 set(handles_gui_sub.text_subsettrunc,'String',string_subsettrunc);
@@ -1292,7 +1292,7 @@ function handles_gui = ncorr_gui_viewplots(reference,current,data_dic,type_plot,
         update_axes('update',handles_gui);
         update_sidemenu(handles_gui);
     end
-	
+    
     function callback_edit_lowerbound(hObject,eventdata) %#ok<INUSD>
         % Get data
         num_cur = getappdata(handles_gui.figure,'num_cur');
@@ -1308,15 +1308,15 @@ function handles_gui = ncorr_gui_viewplots(reference,current,data_dic,type_plot,
         
         % Get Value
         lowerbound_buffer = str2double(get(handles_gui.edit_lowerbound,'string'));
-		if (ncorr_util_isrealbb(lowerbound_buffer,min_lowerbound,slider_buffer(num_cur+1).(lore)(4),'Lowerbound') == out.success)
-			% Make sure denominator is not close to zero
-			if (abs(slider_buffer(num_cur+1).(lore)(5)-slider_buffer(num_cur+1).(lore)(4)) <= 1e-10)
-				slider_buffer(num_cur+1).(lore)(2) = 1;
-			else
-				slider_buffer(num_cur+1).(lore)(2) = (lowerbound_buffer-slider_buffer(num_cur+1).(lore)(4))/(slider_buffer(num_cur+1).(lore)(5)-slider_buffer(num_cur+1).(lore)(4));
-			end
-		end
-			
+        if (ncorr_util_isrealbb(lowerbound_buffer,min_lowerbound,slider_buffer(num_cur+1).(lore)(4),'Lowerbound') == out.success)
+            % Make sure denominator is not close to zero
+            if (abs(slider_buffer(num_cur+1).(lore)(5)-slider_buffer(num_cur+1).(lore)(4)) <= 1e-10)
+                slider_buffer(num_cur+1).(lore)(2) = 1;
+            else
+                slider_buffer(num_cur+1).(lore)(2) = (lowerbound_buffer-slider_buffer(num_cur+1).(lore)(4))/(slider_buffer(num_cur+1).(lore)(5)-slider_buffer(num_cur+1).(lore)(4));
+            end
+        end
+            
         % Set data
         setappdata(handles_gui.figure,'slider_buffer',slider_buffer);
         
@@ -1340,15 +1340,15 @@ function handles_gui = ncorr_gui_viewplots(reference,current,data_dic,type_plot,
         
         % Get Value
         upperbound_buffer = str2double(get(handles_gui.edit_upperbound,'string'));
-		if (ncorr_util_isrealbb(upperbound_buffer,slider_buffer(num_cur+1).(lore)(4),max_upperbound,'Upperbound') == out.success)
-			% Make sure denominator is not close to zero
-			if (abs(slider_buffer(num_cur+1).(lore)(3)-slider_buffer(num_cur+1).(lore)(4)) <= 1e-10)
-				slider_buffer(num_cur+1).(lore)(1) = 1;
-			else
-				slider_buffer(num_cur+1).(lore)(1) = (upperbound_buffer-slider_buffer(num_cur+1).(lore)(4))/(slider_buffer(num_cur+1).(lore)(3)-slider_buffer(num_cur+1).(lore)(4));
-			end                
-		end
-			
+        if (ncorr_util_isrealbb(upperbound_buffer,slider_buffer(num_cur+1).(lore)(4),max_upperbound,'Upperbound') == out.success)
+            % Make sure denominator is not close to zero
+            if (abs(slider_buffer(num_cur+1).(lore)(3)-slider_buffer(num_cur+1).(lore)(4)) <= 1e-10)
+                slider_buffer(num_cur+1).(lore)(1) = 1;
+            else
+                slider_buffer(num_cur+1).(lore)(1) = (upperbound_buffer-slider_buffer(num_cur+1).(lore)(4))/(slider_buffer(num_cur+1).(lore)(3)-slider_buffer(num_cur+1).(lore)(4));
+            end                
+        end
+            
         % Set data
         setappdata(handles_gui.figure,'slider_buffer',slider_buffer);
         
@@ -1356,15 +1356,15 @@ function handles_gui = ncorr_gui_viewplots(reference,current,data_dic,type_plot,
         update_axes('update',handles_gui);
         update_sidemenu(handles_gui);
     end
-	
+    
     function callback_edit_contour(hObject,eventdata) %#ok<INUSD>
         % Get data
         contourlines_prelim = getappdata(handles_gui.figure,'contourlines_prelim');
         max_contourlines = getappdata(handles_gui.figure,'max_contourlines');
-		
+        
         % Get Value
         contourlines_buffer = str2double(get(handles_gui.edit_contour,'string'));
-        if (ncorr_util_isintbb(contourlines_buffer,1,max_contourlines,'Number of contour lines') == out.success)			
+        if (ncorr_util_isintbb(contourlines_buffer,1,max_contourlines,'Number of contour lines') == out.success)            
             contourlines_prelim = contourlines_buffer;
         end
         
@@ -2275,7 +2275,7 @@ function [size_savefig,timedelay,outstate] = gui_savesize(handles_gui_savefig,is
 % 
 % Inputs -----------------------------------------------------------------%
 %   handles_gui_savefig - handle; handle of the save figure. The position
-% 	of this figure is controlled by this GUI
+%     of this figure is controlled by this GUI
 %   isgif - logical; this tells whether or not an animated gif is being
 %   saved. If a gif is being saved then the time delay can be adjusted
 %   pos_parent - integer array; this is the position of the parent figure
@@ -2353,9 +2353,9 @@ function [size_savefig,timedelay,outstate] = gui_savesize(handles_gui_savefig,is
         
         % Get width
         timedelay_buffer = str2double(get(handles_gui.edit_timedelay,'string')); 
-		if (ncorr_util_isrealbb(timedelay_buffer,min_timedelay,max_timedelay,'Time delay') == out.success)
-			timedelay_prelim = timedelay_buffer;
-		end
+        if (ncorr_util_isrealbb(timedelay_buffer,min_timedelay,max_timedelay,'Time delay') == out.success)
+            timedelay_prelim = timedelay_buffer;
+        end
 
         % Set data
         setappdata(handles_gui.figure,'timedelay_prelim',timedelay_prelim);        
@@ -2375,15 +2375,15 @@ function [size_savefig,timedelay,outstate] = gui_savesize(handles_gui_savefig,is
 
         % Get width
         width_img_buffer = str2double(get(handles_gui.edit_width,'string')); 
-		if (ncorr_util_isintbb(width_img_buffer,1,max_width_img,'Width') == out.success)
-			% Calculate new width and height - make sure they do
-			% not go outside screen size
-			height_img_buffer = round(width_img_buffer/ratio_img);
-			if (ncorr_util_isintbb(height_img_buffer,1,max_height_img,'Height') == out.success)
-				width_img = width_img_buffer;
-				height_img = height_img_buffer;
-			end
-		end
+        if (ncorr_util_isintbb(width_img_buffer,1,max_width_img,'Width') == out.success)
+            % Calculate new width and height - make sure they do
+            % not go outside screen size
+            height_img_buffer = round(width_img_buffer/ratio_img);
+            if (ncorr_util_isintbb(height_img_buffer,1,max_height_img,'Height') == out.success)
+                width_img = width_img_buffer;
+                height_img = height_img_buffer;
+            end
+        end
 
         % Set data
         setappdata(handles_gui.figure,'width_img',width_img);
@@ -2404,15 +2404,15 @@ function [size_savefig,timedelay,outstate] = gui_savesize(handles_gui_savefig,is
 
         % Get height
         height_img_buffer = str2double(get(handles_gui.edit_height,'string'));     
-		if (ncorr_util_isintbb(height_img_buffer,1,max_height_img,'Height') == out.success)
-			% Calculate new width and height - make sure they do
-			% not go outside screen size
-			width_img_buffer = round(height_img_buffer*ratio_img);
-			if (ncorr_util_isintbb(width_img_buffer,1,max_width_img,'Width') == out.success)     
-				width_img = width_img_buffer;
-				height_img = height_img_buffer;         
-			end
-		end
+        if (ncorr_util_isintbb(height_img_buffer,1,max_height_img,'Height') == out.success)
+            % Calculate new width and height - make sure they do
+            % not go outside screen size
+            width_img_buffer = round(height_img_buffer*ratio_img);
+            if (ncorr_util_isintbb(width_img_buffer,1,max_width_img,'Width') == out.success)     
+                width_img = width_img_buffer;
+                height_img = height_img_buffer;         
+            end
+        end
 
         % Set data
         setappdata(handles_gui.figure,'width_img',width_img);

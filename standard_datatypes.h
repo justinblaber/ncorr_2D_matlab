@@ -40,7 +40,7 @@ void get_logical_scalar(bool &scalar,const mxArray *mat_buf);
 class class_double_array {
 public:
     // Constructor    
-    class_double_array();						// THREAD SAFE
+    class_double_array();                         // THREAD SAFE
     
     // Properties
     int width;
@@ -48,9 +48,9 @@ public:
     double *value; 
     
     // Methods
-    void reset();								// THREAD SAFE
-    void alloc(const int &h,const int &w);		// NOT THREAD SAFE
-    void free();								// NOT THREAD SAFE
+    void reset();                                 // THREAD SAFE
+    void alloc(const int &h,const int &w);        // NOT THREAD SAFE
+    void free();                                  // NOT THREAD SAFE
 }; 
 
 // NOT THREAD SAFE 
@@ -63,7 +63,7 @@ void get_double_array(class_double_array &array,const mxArray *mat_buf);
 class class_integer_array {
 public:
     // Constructor    
-    class_integer_array();						// THREAD SAFE
+    class_integer_array();                        // THREAD SAFE
     
     // Properties
     int width;
@@ -71,9 +71,9 @@ public:
     int *value; 
     
     // Methods
-    void reset();								// THREAD SAFE
-    void alloc(const int &h,const int &w);		// NOT THREAD SAFE
-    void free();								// NOT THREAD SAFE
+    void reset();                                 // THREAD SAFE
+    void alloc(const int &h,const int &w);        // NOT THREAD SAFE
+    void free();                                  // NOT THREAD SAFE
 };
 
 // NOT THREAD SAFE 
@@ -86,7 +86,7 @@ void get_integer_array(class_integer_array &array,const mxArray *mat_buf);
 class class_logical_array {
 public:
     // Constructor    
-    class_logical_array();						// THREAD SAFE
+    class_logical_array();                        // THREAD SAFE
     
     // Properties
     int width;
@@ -94,9 +94,9 @@ public:
     bool *value; 
     
     // Methods
-    void reset();								// THREAD SAFE
-    void alloc(const int &h,const int &w);		// NOT THREAD SAFE
-    void free();								// NOT THREAD SAFE
+    void reset();                                 // THREAD SAFE
+    void alloc(const int &h,const int &w);        // NOT THREAD SAFE
+    void free();                                  // NOT THREAD SAFE
 };
 
 // NOT THREAD SAFE

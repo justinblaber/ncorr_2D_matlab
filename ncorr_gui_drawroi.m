@@ -60,7 +60,7 @@ function [roi,outstate] = ncorr_gui_drawroi(img,pos_parent,params_init)
                 elseif (strcmp(params_init(i+1).type,'poly'))
                     pos_init = pos_init+1;
                 end            
-				
+                
                 % Set imroi
                 if (strcmp(params_init(i+1).type,'rect'))
                     imroi_init = imrect(handles_gui.axes_roi,pos_init);
@@ -69,11 +69,11 @@ function [roi,outstate] = ncorr_gui_drawroi(img,pos_parent,params_init)
                 elseif (strcmp(params_init(i+1).type,'poly'))
                     imroi_init = impoly(handles_gui.axes_roi,pos_init);
                 end      
-				
+                
                 % Format 
                 format_imroi(imroi_init);            
                 
-				% Append
+                % Append
                 append_imroi(imroi_init,params_init(i+1).type,params_init(i+1).addorsub);
             end            
         end   
@@ -190,7 +190,7 @@ function [roi,outstate] = ncorr_gui_drawroi(img,pos_parent,params_init)
         mask_prelim = getappdata(handles_gui.figure,'mask_prelim');
         
         % Format data - store this version, as it stores the pos_imroi instead
-		% of the imrois directly, which get deleted after the figure is closed
+        % of the imrois directly, which get deleted after the figure is closed
         drawobjects_formatted = format_drawobjects(drawobjects);         
       
         % Form preliminary ROI
@@ -297,7 +297,7 @@ function [roi,outstate] = ncorr_gui_drawroi(img,pos_parent,params_init)
             set(handles_gui.button_finish,'Enable','off')
         end
         
-		% Zoom/pan
+        % Zoom/pan
         if (strcmp(get(handle_pan,'Enable'),'on'))
             set(handles_gui.button_pan,'FontWeight','bold');   
         else
@@ -391,7 +391,7 @@ function [roi,outstate] = ncorr_gui_drawroi(img,pos_parent,params_init)
         drawobject_template.imroi = imroi;
         drawobject_template.type = type;
         drawobject_template.addorsub = addorsub;
-        drawobjects = horzcat(drawobjects,drawobject_template); %#ok<AGROW>
+        drawobjects = horzcat(drawobjects,drawobject_template); 
         
         % Set data
         setappdata(handles_gui.figure,'drawobjects',drawobjects);

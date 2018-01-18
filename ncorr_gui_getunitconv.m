@@ -75,12 +75,12 @@ function [pixtounits,units,outstate] = ncorr_gui_getunitconv(pos_parent)
         handle_line = getappdata(handles_gui.figure,'handle_line');         
             
         num_units_buffer = str2double(get(handles_gui.edit_numunits,'string'));
-		if (ncorr_util_isrealbb(num_units_buffer,1e-6,1e6,'# of units') == out.success)
-			% Store in buffer
-			num_units_prelim = num_units_buffer;
+        if (ncorr_util_isrealbb(num_units_buffer,1e-6,1e6,'# of units') == out.success)
+            % Store in buffer
+            num_units_prelim = num_units_buffer;
             % If line isnt set yet, get_pixtounits returns empty
             pixtounits_prelim = get_pixtounits(num_units_prelim,handle_line);
-		end  
+        end  
                 
         % Store data
         setappdata(handles_gui.figure,'num_units_prelim',num_units_prelim);
@@ -179,7 +179,7 @@ function [pixtounits,units,outstate] = ncorr_gui_getunitconv(pos_parent)
         % Set data
         setappdata(handles_gui.figure,'handle_zoom',handle_zoom);  
         
-		% Update
+        % Update
         update_sidemenu()
     end
 
@@ -198,7 +198,7 @@ function [pixtounits,units,outstate] = ncorr_gui_getunitconv(pos_parent)
         % Set data
         setappdata(handles_gui.figure,'handle_pan',handle_pan);  
         
-		% Update
+        % Update
         update_sidemenu()
     end
 

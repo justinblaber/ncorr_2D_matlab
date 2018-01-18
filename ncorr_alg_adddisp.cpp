@@ -12,7 +12,7 @@
 // Interp plot input ----------------------------------//
 // ----------------------------------------------------//
 
-void get_plot_interp(std::vector<std::vector<class_double_array> > &plot_interp,const mxArray *prhs) {	
+void get_plot_interp(std::vector<std::vector<class_double_array> > &plot_interp,const mxArray *prhs) {    
     // Check input - it's a cells containing cells. The outer cell corresponds to the image, while the inner cells correspond to regions
     if (mxIsClass(prhs,"cell") && mxGetM(prhs) == 1) {
         for (int i=0; i<(int)mxGetN(prhs); i++) {
@@ -27,7 +27,7 @@ void get_plot_interp(std::vector<std::vector<class_double_array> > &plot_interp,
                         // Form interp plot
                         class_double_array plot_interp_region_template;
                         get_double_array(plot_interp_region_template,mat_plot_interp_region);
-						
+                        
                         // Store interp plot per region
                         plot_interp_img_template.push_back(plot_interp_region_template);
                     } else {
@@ -52,53 +52,53 @@ void get_plot_interp(std::vector<std::vector<class_double_array> > &plot_interp,
 class class_adddisp {
 public:
     // Constructor
-	class_adddisp(mxArray *plhs [ ],const mxArray *prhs [ ]);
+    class_adddisp(mxArray *plhs [ ],const mxArray *prhs [ ]);
     
-	// Methods:
-	void analysis();
+    // Methods:
+    void analysis();
 
 private:
-	// Properties
-	// Inputs:
-	std::vector<std::vector<class_double_array> > plots_u_interp;            // local datatype
-	std::vector<std::vector<class_double_array> > plots_v_interp;            // local datatype
-	std::vector<ncorr_class_roi> rois_interp;                                // ncorr datatype        
-	int border_interp;                                                       // standard datatype
+    // Properties
+    // Inputs:
+    std::vector<std::vector<class_double_array> > plots_u_interp;            // local datatype
+    std::vector<std::vector<class_double_array> > plots_v_interp;            // local datatype
+    std::vector<ncorr_class_roi> rois_interp;                                // ncorr datatype        
+    int border_interp;                                                       // standard datatype
     int spacing;                                                             // standard datatype
     int num_img;                                                             // standard datatype
     int total_imgs;                                                          // standard datatype
-    	
-	// Outputs:
-	class_double_array plot_u_added;
-	class_double_array plot_v_added;
-	class_logical_array plot_validpoints;
-	double *outstate;
-		
-	// Other variables:
-	class_waitbar waitbar;
+        
+    // Outputs:
+    class_double_array plot_u_added;
+    class_double_array plot_v_added;
+    class_logical_array plot_validpoints;
+    double *outstate;
+        
+    // Other variables:
+    class_waitbar waitbar;
 };
 
 class_adddisp::class_adddisp(mxArray *plhs[ ],const mxArray *prhs[ ]) {
-	// Get inputs -------------------------------------------------//
+    // Get inputs -------------------------------------------------//
     // input 1: plots_u_interp
-	get_plot_interp(plots_u_interp,prhs[0]);
+    get_plot_interp(plots_u_interp,prhs[0]);
     // input 2: plots_v_interp
-	get_plot_interp(plots_v_interp,prhs[1]);
+    get_plot_interp(plots_v_interp,prhs[1]);
     // input 3: rois_interp - used for determining bounds when forward propagating
-	get_rois(rois_interp,prhs[2]);
-	// input 4: border_interp
-	get_integer_scalar(border_interp,prhs[3]);
-	// input 5: spacing
-	get_integer_scalar(spacing,prhs[4]);
-	// input 6: num_img
-	get_integer_scalar(num_img,prhs[5]);
-	// input 7: total_imgs
-	get_integer_scalar(total_imgs,prhs[6]);
+    get_rois(rois_interp,prhs[2]);
+    // input 4: border_interp
+    get_integer_scalar(border_interp,prhs[3]);
+    // input 5: spacing
+    get_integer_scalar(spacing,prhs[4]);
+    // input 6: num_img
+    get_integer_scalar(num_img,prhs[5]);
+    // input 7: total_imgs
+    get_integer_scalar(total_imgs,prhs[6]);
 
     // Check inputs - check sizes - UPDATE THIS LATER!!!!!   
         
     // Form/set outputs -------------------------------------------//
-	// output 1: plot_adddisp
+    // output 1: plot_adddisp
     // Form deformation structure
     mwSize def_dims[2] = {1,1};
     int def_numfields = 3;
@@ -120,16 +120,16 @@ class_adddisp::class_adddisp(mxArray *plhs[ ],const mxArray *prhs[ ]) {
 
     // output 2: outstate
     plhs[1] = mxCreateDoubleMatrix(1,1,mxREAL);
-	
-	// Get outputs -----------------------------------------------//
-	// output 1: plot_adddisp
-	// u:
-	get_double_array(plot_u_added,mat_plot_u_added);
-	// v:
-	get_double_array(plot_v_added,mat_plot_v_added);
-	// plot_validpoints
+    
+    // Get outputs -----------------------------------------------//
+    // output 1: plot_adddisp
+    // u:
+    get_double_array(plot_u_added,mat_plot_u_added);
+    // v:
+    get_double_array(plot_v_added,mat_plot_v_added);
+    // plot_validpoints
     get_logical_array(plot_validpoints,mat_plot_validpoints);
-	// output 2: outstate
+    // output 2: outstate
     outstate = mxGetPr(plhs[1]);
 }
 
@@ -138,16 +138,16 @@ class_adddisp::class_adddisp(mxArray *plhs[ ],const mxArray *prhs[ ]) {
 // ----------------------------------------------------//
 
 void class_adddisp::analysis() {
-	// Initialize outstate to cancelled
-	*outstate = (double)CANCELLED; 
-	
-	// Set up waitbar ----------------------------------------------//
-	int computepoints = 0; 
-	for (int i=0; i<(int)rois_interp[0].region.size(); i++) {
-		computepoints += rois_interp[0].region[i].totalpoints;
-	}
+    // Initialize outstate to cancelled
+    *outstate = (double)CANCELLED; 
+    
+    // Set up waitbar ----------------------------------------------//
+    int computepoints = 0; 
+    for (int i=0; i<(int)rois_interp[0].region.size(); i++) {
+        computepoints += rois_interp[0].region[i].totalpoints;
+    }
     waitbar.start(num_img,total_imgs,computepoints);  
-	
+    
     // Cycle over each region in the first ROI
     for (int i=0; i<(int)rois_interp[0].region.size(); i++) {
         // Cycle over each point in each region in the first ROI
@@ -174,7 +174,7 @@ void class_adddisp::analysis() {
                             interp_qbs(u_interp_buf,x_cur_reduced,y_cur_reduced,plots_u_interp[n][i],rois_interp[n].mask,rois_interp[n].region[i].leftbound,rois_interp[n].region[i].upperbound,border_interp) == SUCCESS && 
                             interp_qbs(v_interp_buf,x_cur_reduced,y_cur_reduced,plots_v_interp[n][i],rois_interp[n].mask,rois_interp[n].region[i].leftbound,rois_interp[n].region[i].upperbound,border_interp) == SUCCESS) {
                             // Update displacements
-							u_interp += u_interp_buf;
+                            u_interp += u_interp_buf;
                             v_interp += v_interp_buf;
                             
                             // Update x_cur and y_cur
@@ -186,7 +186,7 @@ void class_adddisp::analysis() {
                         }
                     }
                     
-					// If point was successfully propagated then store it
+                    // If point was successfully propagated then store it
                     if (propsuccess) {
                         // Store final u_interp and v_interp value
                         plot_u_added.value[y_ref_reduced + x_ref_reduced*plot_u_added.height] = u_interp;
@@ -195,30 +195,30 @@ void class_adddisp::analysis() {
                         // Set this is a valid point
                         plot_validpoints.value[y_ref_reduced + x_ref_reduced*plot_validpoints.height] = true;
                     } 
-					
-					// Update, check, and increment waitbar   
-					if (!waitbar.updateandcheck()) {
-						// Waitbar was cancelled
-						return;
-					}
-					waitbar.increment();
+                    
+                    // Update, check, and increment waitbar   
+                    if (!waitbar.updateandcheck()) {
+                        // Waitbar was cancelled
+                        return;
+                    }
+                    waitbar.increment();
                 }
             }
         }
     }    
-	
-	// At this point analysis has been completed successfully
-	*outstate = (double)SUCCESS;
+    
+    // At this point analysis has been completed successfully
+    *outstate = (double)SUCCESS;
 }
 
 void mexFunction(int nlhs,mxArray *plhs[ ],int nrhs,const mxArray *prhs[ ]) {
     if (nrhs == 7 && nlhs == 2) {
         // Creat adddisp
         class_adddisp adddisp(plhs,prhs);
-		
+        
         // Run analysis
         adddisp.analysis();
-	} else {
-		mexErrMsgTxt("Incorrect number of inputs.\n");
-	}
+    } else {
+        mexErrMsgTxt("Incorrect number of inputs.\n");
+    }
 }

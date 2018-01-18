@@ -208,8 +208,8 @@ classdef ncorr_class_img < handle
         function img_f = formatted(obj)
         % This function returns the formatted image, which can be inputted to a
         % mex function. Returns as a struct since private properties can't
-		% be passed. Mex functions can receive ncorr_class_img as either
-		% a class or structure.
+        % be passed. Mex functions can receive ncorr_class_img as either
+        % a class or structure.
         %
         % Inputs ---------------------------------------------------------%
         %   none;

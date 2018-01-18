@@ -53,7 +53,7 @@ function [convertseedinfo,outstate] = ncorr_alg_convertseeds(plot_u_old,plot_v_o
         % region corresponding to the largest contiguous area to make sure 
         % small areas arent seeded.
         regionmask_new_buffer = roi_new.get_regionmask(i);
-        [region_new_buffer,removed] = ncorr_alg_formregions(regionmask_new_buffer,int32(0),false); %#ok<NASGU>
+        [region_new_buffer,removed] = ncorr_alg_formregions(regionmask_new_buffer,int32(0),false); %#ok<ASGLU>
 
         % Check if contiguous region(s) are empty or if there are more than one
         if (isempty(region_new_buffer))
@@ -77,7 +77,7 @@ function [convertseedinfo,outstate] = ncorr_alg_convertseeds(plot_u_old,plot_v_o
             x_new = j + region_new_buffer.leftbound;
             % Cycle over each point
             for k = 0:2:region_new_buffer.noderange(j+1)-1
-                for l = region_new_buffer.nodelist(j+1,k+1):region_new_buffer.nodelist(j+1,k+2);
+                for l = region_new_buffer.nodelist(j+1,k+1):region_new_buffer.nodelist(j+1,k+2)
                     y_new = l;                    
                     % Make sure area of half-width seedwindow is valid
                     % around the seed before attempting to process.
@@ -86,15 +86,15 @@ function [convertseedinfo,outstate] = ncorr_alg_convertseeds(plot_u_old,plot_v_o
                         % Analyze point - outstate_calcpoint will either be
                         % success or failed
                         [convertseedinfo_buffer.paramvector,convertseedinfo_buffer.num_region_old,outstate_calcpoint] = calcpoint(x_new, ...
-																														          y_new, ...
-																														          plot_u_old, ...
-																															      plot_v_old, ...
-																															      plot_u_interp_old, ...
-																															      plot_v_interp_old, ...
-																															      roi_old, ...
-																															      list_region_old, ...
-																															      spacing, ...
-																															      border_interp); 
+                                                                                                                                  y_new, ...
+                                                                                                                                  plot_u_old, ...
+                                                                                                                                  plot_v_old, ...
+                                                                                                                                  plot_u_interp_old, ...
+                                                                                                                                  plot_v_interp_old, ...
+                                                                                                                                  roi_old, ...
+                                                                                                                                  list_region_old, ...
+                                                                                                                                  spacing, ...
+                                                                                                                                  border_interp); 
                         % Check if nonlinear solver was successful
                         if (outstate_calcpoint == out.success)
                             % Check distance; make sure its less than a
@@ -154,7 +154,7 @@ function [paramvector,num_region_old,outstate] = calcpoint(x_new,y_new,plot_u_ol
 % Inputs -----------------------------------------------------------------%
 %   x_new - integer; x position WRT the "new" configuration. Note that
 %   x_new is WRT reduced coordinates.
-%	y_new - integer; y position WRT the "new" configuration. Note that
+%   y_new - integer; y position WRT the "new" configuration. Note that
 %   y_new is WRT reduced coordinates.
 %   plot_u_old - double array; u displacements WRT the "old" configuration.
 %   Units are pixels.
@@ -166,7 +166,7 @@ function [paramvector,num_region_old,outstate] = calcpoint(x_new,y_new,plot_u_ol
 %   region.
 %   roi_old - ncorr_class_roi; ROI corresponding to "old" displacements.
 %   Note that ROI is already reduced by default.
-%	list_region_old - logical array; keeps track of which "old" regions have 
+%   list_region_old - logical array; keeps track of which "old" regions have 
 %   been analyzed
 %   spacing - integer; this is the spacing parameter.
 %   border_interp - integer; the amount of padding used around the borders in
@@ -174,7 +174,7 @@ function [paramvector,num_region_old,outstate] = calcpoint(x_new,y_new,plot_u_ol
 %
 % Outputs ----------------------------------------------------------------%
 %   paramvector - double array; [x_new y_new x_old y_old u_old v_old distance]
-% 	num_region_old - integer; The region number which seed resides in for 
+%   num_region_old - integer; The region number which seed resides in for 
 %   the "old" configuration
 %   outstate - integer; returns either out.cancelled, out.failed, or
 %   out.success.
@@ -204,7 +204,7 @@ function [paramvector,num_region_old,outstate] = calcpoint(x_new,y_new,plot_u_ol
                                                                               num_region_old_prelim, ...
                                                                               spacing, ...
                                                                               border_interp);
-																			 
+                                                                             
         if (outstate_iterative == out.success)       
             % Set outputs
             paramvector = [x_new y_new defvector u_old v_old distance];
@@ -221,7 +221,7 @@ function [defvector_init,num_region_old,outstate] = initialguess(x_new,y_new,plo
 % Inputs -----------------------------------------------------------------%
 %   x_new - integer; x position WRT the "new" configuration. Note that
 %   x_new is WRT reduced coordinates.
-%	y_new - integer; y position WRT the "new" configuration. Note that
+%   y_new - integer; y position WRT the "new" configuration. Note that
 %   y_new is WRT reduced coordinates.
 %   plot_u_old - double array; u displacements WRT the "old" configuration.
 %   Units are pixels.
@@ -229,13 +229,13 @@ function [defvector_init,num_region_old,outstate] = initialguess(x_new,y_new,plo
 %   Units are pixels.
 %   roi_old - ncorr_class_roi; ROI corresponding to "old" displacements.
 %   Note that ROI is already reduced by default.
-%	list_region_old - logical array; keeps track of which "old" regions have 
+%   list_region_old - logical array; keeps track of which "old" regions have 
 %   been analyzed
 %   spacing - integer; this is the spacing parameter.
 %
 % Outputs ----------------------------------------------------------------%
 %   defvector_init - integer array; [x_old y_old] - reduced
-%	num_region_old - integer; number of region where x_old and y_old were found
+%   num_region_old - integer; number of region where x_old and y_old were found
 %   outstate - integer; returns either out.cancelled, out.failed, or
 %   out.success.
 
@@ -291,7 +291,7 @@ function [defvector,u_old,v_old,distance,outstate] = iterativesearch(x_new,y_new
 % Inputs -----------------------------------------------------------------%
 %   x_new - integer; x position WRT the "new" configuration. Note that
 %   x_new is WRT reduced coordinates.
-%	y_new - integer; y position WRT the "new" configuration. Note that
+%   y_new - integer; y position WRT the "new" configuration. Note that
 %   y_new is WRT reduced coordinates.
 %   defvector_init - integer array; of form [x_old y_old]. It's integer
 %   because these are the initial guesses from the global search.
@@ -301,7 +301,7 @@ function [defvector,u_old,v_old,distance,outstate] = iterativesearch(x_new,y_new
 %   region.
 %   roi_old - ncorr_class_roi; ROI corresponding to "old" displacements.
 %   Note that ROI is already reduced by default.
-%	num_region_old - integer; number of region being analyzed
+%   num_region_old - integer; number of region being analyzed
 %   spacing - integer; this is the spacing parameter.
 %   border_interp - integer; the amount of padding used around the borders in
 %   interpdata
@@ -310,7 +310,7 @@ function [defvector,u_old,v_old,distance,outstate] = iterativesearch(x_new,y_new
 %   defvector - double array; [x_old y_old] - reduced
 %   u_old - double; u displacement from x_old to x_new - pixels
 %   v_old - double; v displacement from y_old to y_new - pixels
-% 	distance - double; distance between [x_new y_new] and [x_old y_old]
+%   distance - double; distance between [x_new y_new] and [x_old y_old]
 %   outstate - integer; returns either out.cancelled, out.failed, or
 %   out.success.
 
@@ -362,7 +362,7 @@ function [defvector,u_old,v_old,distance,gradnorm,outstate] = newton(x_new,y_new
 % Inputs -----------------------------------------------------------------%
 %   x_new - integer; x position WRT the "new" configuration. Note that
 %   x_new is WRT reduced coordinates.
-%	y_new - integer; y position WRT the "new" configuration. Note that
+%   y_new - integer; y position WRT the "new" configuration. Note that
 %   y_new is WRT reduced coordinates.
 %   defvector_init - double array; of form [x_old y_old]
 %   plot_u_interp_old - double array; array of b-spline coefficients
@@ -378,8 +378,8 @@ function [defvector,u_old,v_old,distance,gradnorm,outstate] = newton(x_new,y_new
 %   defvector - double array; [x_old y_old] - reduced
 %   u_old - double; u displacement from x_old to x_new - pixels
 %   v_old - double; v displacement from y_old to y_new - pixels
-% 	distance - double; distance between [x_new y_new] and [x_old y_old]
-%	gradnorm - double; norm of the gradient vector - should be close to 0
+%   distance - double; distance between [x_new y_new] and [x_old y_old]
+%   gradnorm - double; norm of the gradient vector - should be close to 0
 %   outstate - integer; returns either out.cancelled, out.failed, or
 %   out.success.
 
@@ -416,7 +416,7 @@ function [defvector,u_old,v_old,distance,gradnorm,outstate] = newton(x_new,y_new
         det_hess = det(hessian);
         % Check to make sure hessian is positive definite
         % From :http://www.math.northwestern.edu/~clark/285/2006-07/handouts/pos-def.pdf
-		% Make sure det(hess) > 0 and hess(1,1) > 0 
+        % Make sure det(hess) > 0 and hess(1,1) > 0 
         if (det_hess > 0 && hessian(1) > 0)
             % Determine new coordinates
             defvector_prelim = (defvector_init'-hessian^-1*gradient')';
@@ -512,7 +512,7 @@ function [interpvector,outstate] = interpqbs_convert(defvector,plot_u_interp_old
         y_vec(4) = y_vec(3)*y_tilda_delta;
         y_vec(5) = y_vec(4)*y_tilda_delta;
         y_vec(6) = y_vec(5)*y_tilda_delta;
-		
+        
         x_vec_dx(1) = 0.0;
         x_vec_dx(2) = 1.0;
         x_vec_dx(3) = 2.0*x_vec(2);

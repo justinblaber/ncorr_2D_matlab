@@ -223,7 +223,7 @@ classdef ncorr_class_roi < handle
                     ncorr_alg_formmask(drawobjects,mask_prelim);
 
                     % Get region
-                    [region_buffer,removed] = ncorr_alg_formregions(mask_prelim,int32(0),false); %#ok<NASGU>
+                    [region_buffer,removed] = ncorr_alg_formregions(mask_prelim,int32(0),false); %#ok<ASGLU>
 
                     % There must be one region per boundary to preserve 
                     % their correspondence. It's  possible for the region 
@@ -268,8 +268,8 @@ classdef ncorr_class_roi < handle
         
         function roi_reduced = reduce(obj,spacing) 
         % This function reduces the ROI. Its possible some regions will 
-		% be deleted after the reduction; a placeholder is still used to 
-		% preserve the number of regions.
+        % be deleted after the reduction; a placeholder is still used to 
+        % preserve the number of regions.
         %
         % Inputs ---------------------------------------------------------%
         %   spacing - integer; spacing parameter
@@ -416,8 +416,8 @@ classdef ncorr_class_roi < handle
         %   roi_plot - ncorr_class_roi; ROI corresponding to displacement
         %   plots
         %   size_mask_update - integer array; size of the updated mask. Can
-		% 	be a different size than obj.mask if different sized image are 
-		% 	used
+        %     be a different size than obj.mask if different sized image are 
+        %     used
         %   spacing - integer; spacing parameter 
         %   radius - integer; subset radius
         % 
@@ -482,7 +482,7 @@ classdef ncorr_class_roi < handle
         function roi_f = formatted(obj)
         % This function returns the formatted ROI, which can be inputted to a
         % mex function. Mex functions can receive ncorr_class_roi as either
-		% a class or structure.
+        % a class or structure.
         %
         % Inputs ---------------------------------------------------------%
         %   none;
@@ -521,7 +521,7 @@ classdef ncorr_class_roi < handle
                 
         function [num_region,idx_nodelist] = get_num_region(obj,x,y,list_region)
         % This function determines which region x and y lie in, excluding
-		% the regions indicated by list_region
+        % the regions indicated by list_region
         %
         % Inputs ---------------------------------------------------------%
         %   x - integer; x_coordinate
@@ -855,7 +855,7 @@ classdef ncorr_class_roi < handle
                 end
 
                 % Update totalpoints
-                 cirroi_template.region.totalpoints = cirroi_template.region.totalpoints + (queue_nodelist_buffer(2)-queue_nodelist_buffer(1)+1);   
+                cirroi_template.region.totalpoints = cirroi_template.region.totalpoints + (queue_nodelist_buffer(2)-queue_nodelist_buffer(1)+1);   
             end                                       
 
             % Set Bounds - since noderange length is always
@@ -1055,7 +1055,7 @@ classdef ncorr_class_roi < handle
                     % nature. Setting the last parameter to true for 
                     % formregion will make the length of the noderange the 
                     % same as the width of the mask
-                    [region_cirroi_prelim,removed] = ncorr_alg_formregions(mask_cirroi_prelim,int32(0),true); %#ok<NASGU>
+                    [region_cirroi_prelim,removed] = ncorr_alg_formregions(mask_cirroi_prelim,int32(0),true); %#ok<ASGLU>
 
                     % Its possible for region to be empty. Must check it. If 
                     % its empty, then abandon subset truncation.
