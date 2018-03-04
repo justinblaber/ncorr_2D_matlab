@@ -8,9 +8,9 @@ J Blaber, B Adair, A Antoniou
 Experimental Mechanics 55 (6), 1105-1122
 ```
 
-Please cite this paper if you use this software in your research.
+Please cite this paper if you use this software in your research. 
 
-This software performs 2D Digital Image Correlation (DIC). Download it with:
+# Installation instructions
 
 ```
 git clone https://github.com/justinblaber/ncorr_2D_matlab.git
