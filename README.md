@@ -19,7 +19,8 @@ git clone https://github.com/justinblaber/ncorr_2D_matlab.git
 Then, in MATLAB:
 
 ```
->> addpath('ncorr_2D_matlab');
+>> cd ncorr_2D_matlab
+>> addpath(pwd);
 >> handles_ncorr = ncorr;
 ```
 
