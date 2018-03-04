@@ -13,7 +13,7 @@ Please cite this paper if you use this software in your research.
 This software performs 2D Digital Image Correlation (DIC). Download it with:
 
 ```
-git pull https://github.com/justinblaber/ncorr_2D_matlab.git
+git clone https://github.com/justinblaber/ncorr_2D_matlab.git
 ```
 
 Then, in MATLAB:
