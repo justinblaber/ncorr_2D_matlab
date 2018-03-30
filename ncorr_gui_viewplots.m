@@ -848,7 +848,7 @@ function handles_gui = ncorr_gui_viewplots(reference,current,data_dic,type_plot,
             % Min Marker
             [y_min,x_min] = find(plot_data == datamin,1);
             handle_point_min = impoint(handles_gui_sub.axes_formatplot,x_min,y_min);
-            setColor(handle_point_min,'g');
+            setColor(handle_point_min,'r');
             set(handle_point_min,'UIContextMenu','');
             set(handle_point_min,'ButtonDownFcn','');        
             
